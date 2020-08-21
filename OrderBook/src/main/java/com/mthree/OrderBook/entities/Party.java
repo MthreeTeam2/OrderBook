@@ -18,8 +18,7 @@ import javax.persistence.Id;
 @Entity
 public class Party {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id    
     private String symbol;
     
     @Column(nullable = false)

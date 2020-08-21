@@ -19,8 +19,7 @@ import javax.persistence.Id;
 @Entity
 public class Stock {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id    
     private String symbol;
     
     @Column(nullable = false)
