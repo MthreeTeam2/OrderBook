@@ -5,14 +5,15 @@
  */
 package com.mthree.OrderBook.service;
 
-import com.mthree.OrderBook.dao.AuditDao;
-import com.mthree.OrderBook.dao.OrderDao;
-import com.mthree.OrderBook.dao.OrderVersionDao;
-import com.mthree.OrderBook.dao.PartyDao;
-import com.mthree.OrderBook.dao.StockDao;
-import com.mthree.OrderBook.dao.TradeDao;
+import com.mthree.OrderBook.dao.AuditRepository;
+import com.mthree.OrderBook.dao.OrderRepository;
+import com.mthree.OrderBook.dao.OrderVersionRepository;
+import com.mthree.OrderBook.dao.PartyRepository;
+import com.mthree.OrderBook.dao.StockRepository;
+import com.mthree.OrderBook.dao.TradeRepository;
 import com.mthree.OrderBook.entities.Stock;
 import com.mthree.OrderBook.entities.Trade;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 import org.springframework.stereotype.Service;
@@ -25,28 +26,26 @@ import org.springframework.stereotype.Service;
 public class ServiceLayerImpl implements serviceLayer{
     
     @Autowired
-    AuditDao auditRepository;
+    AuditRepository auditRepository;
     
     @Autowired
-    OrderDao orderRepository;
+    OrderRepository orderRepository;
     
     @Autowired
-    PartyDao partyRepository;
+    PartyRepository partyRepository;
     
     @Autowired
-    StockDao stockRepository;
+    StockRepository stockRepository;
     
     @Autowired
-    TradeDao tradeRepository;
+    TradeRepository tradeRepository;
     
     @Autowired
-    OrderVersionDao orderVersionRepository;
+    OrderVersionRepository orderVersionRepository;
     
     
     
-    Trade getTrade(int id){
-        Trade trade = tradeReposistory.
-    }
+   
     
     
 }
