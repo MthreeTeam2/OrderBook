@@ -6,6 +6,9 @@
 package com.mthree.OrderBook.dao;
 
 import com.mthree.OrderBook.entities.Order;
+import com.mthree.OrderBook.entities.Party;
+import com.mthree.OrderBook.entities.Stock;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +25,11 @@ public interface OrderRepository extends JpaRepository<Order, Integer>{
         + getOrdersForStock(Stock stock, Bool buy)
         + getOrdersForParty(Party party, Bool buy)
      */
+    // Dont think we will need these
+//    List<Order> findByStock(Stock stock);
+//    List<Order> findByParty(Party party);
+    
+    // functionality of remaining methods can be accomplished by using lambdas and streams in the service layer 
+    
+    //List<Order> buyOrdersforStock = OrderRepository.findByStock.stream.filter((o)-> o.isBuy == true )
 }

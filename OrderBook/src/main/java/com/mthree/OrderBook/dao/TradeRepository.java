@@ -24,7 +24,7 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
     //add additional methods
     /**
      *  + getTradesForOrder(Order order)
-        + getTradeForOrderVersion(OrderVersion orderversion)
+        + getTradeForOrderVersion(OrderVersion orderversion) COME BACK TO THIS ONE
         + getTenMostRecentTradesForStock(Stock stock)
         + getTenMostRecentTrades()
         + getTradesForDate()
@@ -36,6 +36,16 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
     List<Trade> findBybuyOrderVersion(OrderVersion orderVersion);
     
     List<Trade> findBybuyOrderVersion_Order_Stock(Stock stock);
+    
+    List<Trade> findBysellOrderVersion_Order(Order order);
+
+    List<Trade> findBysellOrderVersion(OrderVersion orderVersion);
+
+    List<Trade> findBysellOrderVersion_Order_Stock(Stock stock);
+    
+    // functionality of remaining methods can be accomplished by using lambdas and streams in the service layer
+    
+    
     
     
     
