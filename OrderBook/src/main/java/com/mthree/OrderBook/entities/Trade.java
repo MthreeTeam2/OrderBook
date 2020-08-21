@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -24,11 +26,14 @@ public class Trade {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
-    @Column(nullable = false)
-    private int buyOrderVersion;
     
-    @Column(nullable = false)
-    private int sellOrderVersion;
+    @ManyToOne
+    @JoinColumn(name = "buyOrderVersion", nullable = false )
+    private OrderVersion buyOrderVersion;
+    
+    @ManyToOne
+    @JoinColumn(name = "sellOrderVersion", nullable = false )
+    private OrderVersion sellOrderVersion;
     
     @Column(nullable = false)
     private BigDecimal price;
@@ -47,21 +52,23 @@ public class Trade {
         this.id = id;
     }
 
-    public int getBuyOrderVersion() {
+    public OrderVersion getBuyOrderVersion() {
         return buyOrderVersion;
     }
 
-    public void setBuyOrderVersion(int buyOrderVersion) {
+    public void setBuyOrderVersion(OrderVersion buyOrderVersion) {
         this.buyOrderVersion = buyOrderVersion;
     }
 
-    public int getSellOrderVersion() {
+    public OrderVersion getSellOrderVersion() {
         return sellOrderVersion;
     }
 
-    public void setSellOrderVersion(int sellOrderVersion) {
+    public void setSellOrderVersion(OrderVersion sellOrderVersion) {
         this.sellOrderVersion = sellOrderVersion;
     }
+
+   
 
     public BigDecimal getPrice() {
         return price;
