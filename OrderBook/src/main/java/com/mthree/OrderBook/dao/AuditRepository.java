@@ -5,7 +5,7 @@
  */
 package com.mthree.OrderBook.dao;
 
-import com.mthree.OrderBook.entities.Stock;
+import com.mthree.OrderBook.entities.Audit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
  * @author ben
  */
 @Repository
-public interface StockDao extends JpaRepository<Stock, String>{
-    //no additional methods needed
+public interface AuditRepository extends JpaRepository<Audit, Integer>{
+    // don't think this needs more methods, as addAudit should be fine
+    // service layer should then maybe include method that converts an action to an audit friendly message
 }

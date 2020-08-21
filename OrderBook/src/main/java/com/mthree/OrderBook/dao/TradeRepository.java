@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @author ben
  */
 @Repository
-public interface TradeDao extends JpaRepository<Trade, Integer>{
+public interface TradeRepository extends JpaRepository<Trade, Integer>{
     //add additional methods
     /**
      *  + getTradesForOrder(Order order)

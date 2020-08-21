@@ -5,7 +5,7 @@
  */
 package com.mthree.OrderBook.dao;
 
-import com.mthree.OrderBook.entities.Party;
+import com.mthree.OrderBook.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,12 @@ import org.springframework.stereotype.Repository;
  * @author ben
  */
 @Repository
-public interface PartyDao extends JpaRepository<Party, String>{
-    //no additional methods required
+public interface OrderRepository extends JpaRepository<Order, Integer>{
+    //need to add additional methods
+    /**
+     *  + getOrdersForStock(Stock stock)
+        + getOrdersForParty(Party party)
+        + getOrdersForStock(Stock stock, Bool buy)
+        + getOrdersForParty(Party party, Bool buy)
+     */
 }

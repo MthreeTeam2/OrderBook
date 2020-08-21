@@ -6,6 +6,8 @@
 package com.mthree.OrderBook.dao;
 
 import com.mthree.OrderBook.entities.Order;
+import com.mthree.OrderBook.entities.OrderVersion;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,12 +16,13 @@ import org.springframework.stereotype.Repository;
  * @author ben
  */
 @Repository
-public interface OrderDao extends JpaRepository<Order, Integer>{
-    //need to add additional methods
+public interface OrderVersionRepository extends JpaRepository<OrderVersion, Integer>{
+    //add additional methods
     /**
-     *  + getOrdersForStock(Stock stock)
-        + getOrdersForParty(Party party)
-        + getOrdersForStock(Stock stock, Bool buy)
-        + getOrdersForParty(Party party, Bool buy)
+     *  + getLatestVersionForOrder(Order order)
+        + getLastestActiveVersionForOrder(Order order)
+        + getAllActiveOrderVersionsForStock(Stock stock, Bool Buy)
+        + getAllVersionsForOrder(Order order)
      */
+    
 }

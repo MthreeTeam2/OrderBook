@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @Entity
 public class Party {
 
-    @Id    
+    @Id  
     private String symbol;
     
     @Column(nullable = false)
