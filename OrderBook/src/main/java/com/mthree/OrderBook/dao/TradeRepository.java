@@ -10,6 +10,8 @@ import com.mthree.OrderBook.entities.OrderVersion;
 import com.mthree.OrderBook.entities.Stock;
 import com.mthree.OrderBook.entities.Trade;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -31,60 +33,19 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
         + getTradesForStockDate()   
      */
     List<Trade> findBybuyOrderVersion_Order(Order order);
-    
-    
-    List<Trade> findBybuyOrderVersion(OrderVersion orderVersion);
-    
-    List<Trade> findBybuyOrderVersion_Order_Stock(Stock stock);
-    
     List<Trade> findBysellOrderVersion_Order(Order order);
-
-    List<Trade> findBysellOrderVersion(OrderVersion orderVersion);
-
-    List<Trade> findBysellOrderVersion_Order_Stock(Stock stock);
+     
+    @Query("SELECT t FROM trades t "
+            + "WHERE t.time > ?1 AND time < ?2 "
+            + "ORDER BY t.time DESC ")
+    List<Trade> getTradesBetweenTimes(LocalDateTime time1, LocalDateTime time2);
     
-    // functionality of remaining methods can be accomplished by using lambdas and streams in the service layer
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /**@Query("SELECT t FROM Trade t WHERE t.date = ?1")
-    List<Trade> findByDate(Date date);
-    
-    @Query("SELECT t FROM Trade t "
-            + "INNER JOIN OrderVersion ov ON t.buyOrderVersion = ov.id"
-            + "INNER JOIN Order o ON ov.order = o.id"
-            + "INNER JOIN Stock s ON o.stock = s.id"
-            + " WHERE t.time = ?1 AND s.id = ?2 ")
-    List<Trade> findByDateAndStockId(Date date, int stockId);
-    
-    @Query("SELECT t FROM Trade t ORDER by date DESC LIMIT 10")
-    List<Trade> getTenMostRecentTrades();
-    
-    @Query("SELECT t FROM Trade t "
-            + "INNER JOIN OrderVersion ov ON t.buyOrderVersion = ov.id"
-            + "INNER JOIN Order o ON ov.order = o.id"
-            + "INNER JOIN Stock s ON o.stock = s.id"
-            + "WHERE AND s.id = ?2 "
-            + "ORDER by t.time DESC LIMIT 10")
-    List<Trade> getTenMostRecentTradesForStock(Date date, int stockId);*/
-    
+    @Query("SELECT t FROM trades t "
+               + "JOIN orderversion ov on t.buyOrderVersion = ov.id "
+                + "JOIN orders o on ov.order = o.id "
+                + "JOIN  Stock s on o.stock = s.id "
+               + "WHERE s = ?1 AND t.time > ?2 AND time < ?3 "
+                + "ORDER BY t.time DESC ")
+    List<Trade> getTradesBetweenTimesForStock(Stock stock, LocalDateTime time, LocalDateTime time2);
     
 }
