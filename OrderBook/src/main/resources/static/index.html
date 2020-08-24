@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <title>Order Book Manager</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row m-4">
+                <div class="col text-center">
+                    <h1>Order Book</h1>
+                </div>
+            </div>
+            <div class="row m-4">
+                <div class="col text-center m-3 border-dark ">
+                    <a href="orderbook" class="btn btn-outline-primary btn-lg">Box 1</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="orderbook" class="btn btn-outline-primary btn-lg">Box 2</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="orderbook" class="btn btn-outline-primary btn-lg">Box 3</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="orderbook" class="btn btn-outline-primary btn-lg">Box 4</a>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="container">
+            <div class="row m-4">
+                <div class=" col text-center m-3">
+                    <div class="col text-center">
+                        <h2>{{Date}} Trades</h2>
+                    </div>      
+                </div>
+            </div>
+            <div class="row m-4">
+                <form class="form-inline" action="getTrades" method="POST">
+                    <div class="col text-center m-3">
+                        <input type="date" name="date"  id="date" class="form-control"/>
+                    </div>
+                    <div class="col text-center m-3">
+                        <select id="stock" name="stock" class="form-control" >
+                            <option> Stock 1 </option>
+                            <option> Stock 2 </option>
+                            <option> Stock 3 </option>
+                            <option> Stock 4 </option>
+                        </select>
+                    </div>
+                    <div class="col text-center m-3">
+                        <button type="submit" class="btn btn-primary">Get Trades</button> </div>
+                </form>   </div>                
+            <div class="form-group row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Stock</th>
+                            <th>Counter Party</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GOOG</td>
+                            <td>LCH</td>
+                            <td>300</td>
+                            <td>3234</td>
+                            <td>25/12/2020 14:35</td>
+                        </tr>
+                        <tr>
+                            <td>GOOG</td>
+                            <td>LCH</td>
+                            <td>300</td>
+                            <td>3234</td>
+                            <td>25/12/2020 14:35</td>
+                        </tr>  
+                        <tr>
+                            <td>GOOG</td>
+                            <td>LCH</td>
+                            <td>300</td>
+                            <td>3234</td>
+                            <td>25/12/2020 14:35</td>
+                        </tr>                          
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
+</html>;
