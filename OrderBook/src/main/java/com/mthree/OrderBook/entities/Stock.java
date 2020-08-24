@@ -6,6 +6,7 @@
 package com.mthree.OrderBook.entities;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,16 +23,16 @@ public class Stock {
     @Id    
     private String symbol;
     
-    @Column(nullable = false)
+    @Column(name = "orderstoday",nullable = false)
     private int ordersToday;
     
-    @Column(nullable = false)
+    @Column(name = "volumetoday",nullable = false)
     private int volumeToday;
     
-    @Column(nullable = false)
+    @Column(name = "latestmatch", nullable = false)
     private BigDecimal latestMatch;
     
-    @Column(nullable = false)
+    @Column(name = "ticksize",nullable = false)
     private BigDecimal tickSize;
     
     
@@ -73,6 +74,52 @@ public class Stock {
 
     public void setTickSize(BigDecimal tickSize) {
         this.tickSize = tickSize;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + Objects.hashCode(this.symbol);
+        hash = 89 * hash + this.ordersToday;
+        hash = 89 * hash + this.volumeToday;
+        hash = 89 * hash + Objects.hashCode(this.latestMatch);
+        hash = 89 * hash + Objects.hashCode(this.tickSize);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Stock other = (Stock) obj;
+        if (this.ordersToday != other.ordersToday) {
+            return false;
+        }
+        if (this.volumeToday != other.volumeToday) {
+            return false;
+        }
+        if (!Objects.equals(this.symbol, other.symbol)) {
+            return false;
+        }
+        if (!Objects.equals(this.latestMatch, other.latestMatch)) {
+            return false;
+        }
+        if (!Objects.equals(this.tickSize, other.tickSize)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Stock{" + "symbol=" + symbol + ", ordersToday=" + ordersToday + ", volumeToday=" + volumeToday + ", latestMatch=" + latestMatch + ", tickSize=" + tickSize + '}';
     }
     
     

@@ -7,6 +7,7 @@ package com.mthree.OrderBook.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,11 +29,11 @@ public class Trade {
     
     
     @ManyToOne
-    @JoinColumn(name = "buyOrderVersion", nullable = false )
+    @JoinColumn(name = "buyorderversion", nullable = false )
     private OrderVersion buyOrderVersion;
     
     @ManyToOne
-    @JoinColumn(name = "sellOrderVersion", nullable = false )
+    @JoinColumn(name = "sellorderversion", nullable = false )
     private OrderVersion sellOrderVersion;
     
     @Column(nullable = false)
@@ -92,6 +93,56 @@ public class Trade {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 11 * hash + this.id;
+        hash = 11 * hash + Objects.hashCode(this.buyOrderVersion);
+        hash = 11 * hash + Objects.hashCode(this.sellOrderVersion);
+        hash = 11 * hash + Objects.hashCode(this.price);
+        hash = 11 * hash + Objects.hashCode(this.time);
+        hash = 11 * hash + this.size;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Trade other = (Trade) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.size != other.size) {
+            return false;
+        }
+        if (!Objects.equals(this.buyOrderVersion, other.buyOrderVersion)) {
+            return false;
+        }
+        if (!Objects.equals(this.sellOrderVersion, other.sellOrderVersion)) {
+            return false;
+        }
+        if (!Objects.equals(this.price, other.price)) {
+            return false;
+        }
+        if (!Objects.equals(this.time, other.time)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Trade{" + "id=" + id + ", buyOrderVersion=" + buyOrderVersion + ", sellOrderVersion=" + sellOrderVersion + ", price=" + price + ", time=" + time + ", size=" + size + '}';
     }
     
     
