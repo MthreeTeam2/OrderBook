@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Order Book Manager</title>
+</head>
+<body>
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center">
+            <h1>Order Book</h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="col text-center">
+        <h2>Amend Order {1}: {CP1} {BUY} {GOOG}</h2>
+    </div>
+    <div class="row m-4">
+        <div class=" col m-6 ">
+            <br />
+            <form  action="getTrades" method="POST">
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Counter Party</label>
+                    <div class="col-9">
+                        <input type="text" readonly name="counterparty" value="{counterparty}" id="counterparty" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Buy or Sell ?</label>
+                    <div class="col-9">
+                        <input type="text" readonly name="isBuy" value="{Buy}" id="isBuy" class="form-control"/>
+  </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Size</label>
+                    <div class="col-9">
+                        <input type="text" name="size" id="size" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Price </label>
+                    <div class="col-9">
+                        <input type="number" step="0.05" name="ticker" id="ticker" class="form-control"/>
+                    </div>
+                </div>
+                <br />
+                <div class=" col m-6 text-center ">
+                <button type="submit" class="btn btn-primary">Amend Order</button>
+                <button type="cancel" class="btn btn-secondary">Discard</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>;

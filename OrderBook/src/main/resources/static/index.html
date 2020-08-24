@@ -76,20 +76,19 @@
                             <td>3234</td>
                             <td>25/12/2020 14:35</td>
                         </tr>
-                        <tr>
-                            <td>GOOG</td>
-                            <td>LCH</td>
-                            <td>300</td>
-                            <td>3234</td>
-                            <td>25/12/2020 14:35</td>
-                        </tr>  
-                        <tr>
-                            <td>GOOG</td>
-                            <td>LCH</td>
-                            <td>300</td>
-                            <td>3234</td>
-                            <td>25/12/2020 14:35</td>
-                        </tr>                          
+                      <!-- Clickable rows
+                      <tr th:each="location : ${locations}"  th:onclick="|window.location.href='/editLocation?id=${location.LocationId}'|">
+                            <td th:text="${location.LocationId}" >ID</td>
+                            <td th:text="${location.Name}">Name</td>
+                            <td th:text="${location.Street}">Street</td>
+                            <td th:text="${location.City}">City</td>
+                            <td th:text="${location.Zip}">Zip</td>
+                            <td th:text="${location.Latitude}">Latitude</td>
+                            <td th:text="${location.Longitude}">Longitude</td>
+                            <td><a href="#" th:href="@{/editLocation(id=${location.LocationId})}">Edit</a></td>
+                            <td><a href="#" onclick="if (!confirm('Do you want to delete? '))
+                                            return false" th:href="@{/deleteLocation(id=${location.LocationId})}">Delete</a></td>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
