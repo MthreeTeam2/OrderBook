@@ -10,6 +10,7 @@ import com.mthree.OrderBook.entities.OrderVersion;
 import com.mthree.OrderBook.entities.Stock;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,8 +27,26 @@ public interface OrderVersionRepository extends JpaRepository<OrderVersion, Inte
         + getAllVersionsForOrder(Order order)
      */
     
-    List <OrderVersion> findByOrder(Order order);
-    List <OrderVersion> findByOrder_Stock(Stock stock);
+    List <OrderVersion> findByOrderOrderByIdDesc(Order order);
+    
+    @Query("Select ov FROM orderversion ov "
+            + "JOIN orders o on ov.order = o.id "
+            + "JOIN  Stock s on o.stock = s.id "
+            + "WHERE stock = ?1 AND ov.isActive = true AND o.isBuy = true "
+            + "ORDER BY ov.price DESC")
+    List <OrderVersion> getActiveBuyOrderVersionsForStock(Stock stock);
+    
+    @Query("Select ov FROM orderversion ov "
+            + "JOIN orders o on ov.order = o.id "
+            + "JOIN  Stock s on o.stock = s.id "
+            + "WHERE stock = ?1 AND ov.isActive = true AND o.isBuy = false "
+            + "ORDER BY ov.price ASC")
+    List <OrderVersion> getActiveSellOrderVersionsForStock(Stock stock);
+    
+     
+    
+    
+    List <OrderVersion> findByOrder_StockOrderByPriceDesc(Stock stock);
     
     // functionality of remaining methods can be accomplished by using lambdas and streams in the service layer
     

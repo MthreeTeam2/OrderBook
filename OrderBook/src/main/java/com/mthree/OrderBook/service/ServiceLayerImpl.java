@@ -16,6 +16,7 @@ import com.mthree.OrderBook.entities.OrderVersion;
 import com.mthree.OrderBook.entities.Party;
 import com.mthree.OrderBook.entities.Stock;
 import com.mthree.OrderBook.entities.Trade;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,12 +60,18 @@ public class ServiceLayerImpl implements serviceLayer{
     // ORDER VERSIONs
     @Override
     public List<OrderVersion> getActiveOrderVersionsForStock(Stock stock, boolean buy){
-        return orderVersionRepository.findByOrder_Stock(stock).stream().filter((o) -> o.getOrder().isIsBuy() == buy && o.isIsActive() == true).collect(Collectors.toList());
+        if(buy == true){
+            return orderVersionRepository.getActiveBuyOrderVersionsForStock(stock);
+        }else{
+            return orderVersionRepository.getActiveSellOrderVersionsForStock(stock);
+        }
+        
+        
     }
     
     @Override
     public List<OrderVersion> getAllOrderVersionsForOrder(Order order){
-        return orderVersionRepository.findByOrder(order);
+        return orderVersionRepository.findByOrderOrderByIdDesc(order);
     }
     
     

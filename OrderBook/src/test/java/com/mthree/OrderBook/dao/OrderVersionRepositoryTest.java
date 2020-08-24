@@ -168,7 +168,7 @@ public class OrderVersionRepositoryTest {
         orderVersion3.setPrice(new BigDecimal(50.45).setScale(2, RoundingMode.HALF_UP));
         orderVersionRepository.save(orderVersion2);
 
-        List<OrderVersion> orderVersions = orderVersionRepository.findByOrder(order);
+        List<OrderVersion> orderVersions = orderVersionRepository.findByOrderOrderByIdDesc(order);
 
         assertEquals(orderVersions.size(), 2);
         assertTrue(orderVersions.contains(orderVersion));
@@ -227,7 +227,7 @@ public class OrderVersionRepositoryTest {
         orderVersion2.setPrice(new BigDecimal(50.55).setScale(2, RoundingMode.HALF_UP));
         orderVersionRepository.save(orderVersion2);
 
-        List<OrderVersion> orderVersions = orderVersionRepository.findByOrder_Stock(stock);
+        List<OrderVersion> orderVersions = orderVersionRepository.getActiveBuyOrderVersionsForStock(stock);
 
         assertEquals(orderVersions.size(), 1);
         assertTrue(orderVersions.contains(orderVersion));
