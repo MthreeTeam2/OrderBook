@@ -23,10 +23,12 @@ public interface serviceLayer {
     //ORDERS
     public Optional<Order> getOrderById(int id);
     public void cancelOrder(Order order);
+    public void addOrder(OrderVersion orderVersion);
     
     // ORDER VERSIONS
     public List<OrderVersion> getActiveOrderVersionsForStock(Stock stock, boolean buy);
     public List<OrderVersion> getAllOrderVersionsForOrder(Order order);
+    public void updateOrder(OrderVersion orderVersion);
     
     
     // TRADES
