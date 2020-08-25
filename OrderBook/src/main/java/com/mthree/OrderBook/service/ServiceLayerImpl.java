@@ -20,7 +20,6 @@ import com.mthree.OrderBook.entities.Trade;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAmount;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,77 +71,165 @@ public class ServiceLayerImpl implements serviceLayer{
         writeAudit("ORDER " + order.getId() + ": " + order.getParty().getSymbol() + buyString + order.getStock().getSymbol() + " CANCELLED.");
     }
     
-    public void addBuyOrder(Order order, OrderVersion buyOrderVersion){
+    @Override
+    public void addOrder(OrderVersion orderVersion){
+
+        // Add the order to the database and orderVersion to the Database
+        orderRepository.save(orderVersion.getOrder());
         
-        // create variable which determine whether to keep trading 
+        // Add and trade with the new  order version
+        // potentially creates new buy orderversion, sell orderversions, and trades
+        if(orderVersion.getOrder().isIsBuy()== true){
+            addBuyOrderVersion(orderVersion);
+        }else{
+            addSellOrderVersion(orderVersion);
+        }
+ 
+    }
+    
+    @Override
+    public void updateOrder(OrderVersion orderVersion){
+        
+        // Add and trade with the new  order version
+        // potentially creates new buy orderversion, sell orderversions, and trades
+        if(orderVersion.getOrder().isIsBuy()== true){
+            addBuyOrderVersion(orderVersion);
+        }else{
+            addSellOrderVersion(orderVersion);
+        }
+    }
+    
+    private void addBuyOrderVersion(OrderVersion buyOrderVersion){
+        // create variable which determines whether to keep trading 
         boolean trading = true;
         
-        // Add the order to the database and orderVersion to the Database
-        orderRepository.save(order);
-        
-        
         while(trading){
-            // Add order version to database and assign complete object fields from db to buyOrderVersion
+            // Add entry to database and assign complete fields to object from db 
+            // so that entry is updated on next save (existing fully formed object with id)
             buyOrderVersion = orderVersionRepository.save(buyOrderVersion);
             
-            // Get the cheapest active sell order version
-            OrderVersion sellOrderVersion = orderVersionRepository.getActiveSellOrderVersionsForStock(order.getStock()).get(0);
+            // Get the cheapest active sell order version, sell order version will be updated on next save (existing fully formed object with id)
+            OrderVersion sellOrderVersion = orderVersionRepository.getActiveSellOrderVersionsForStock(buyOrderVersion.getOrder().getStock()).get(0);
 
             // Check if the price of the sell order version is lower than or equal to the price of the buy order version
             // If so: do trading logic
             // If not: set trading to false
             if (sellOrderVersion.getPrice().compareTo(buyOrderVersion.getPrice()) == -1 || sellOrderVersion.getPrice().compareTo(buyOrderVersion.getPrice()) == 0) {
 
-                // The price of the trade will be executed at the price of the sell order version
-                BigDecimal tradePrice = sellOrderVersion.getPrice();
-
-                // The size of the trade will be the minimum size of the buy and sell order versions
-                int tradeSize = Math.min(sellOrderVersion.getSize(), buyOrderVersion.getSize());
-
-                // Change the order versions to inactive and update them
+                // Change the order versions to inactive and update entries
                 sellOrderVersion.setIsActive(false);
                 orderVersionRepository.save(sellOrderVersion);
                 buyOrderVersion.setIsActive(false);
                 orderVersionRepository.save(buyOrderVersion);
-
-                // Create and add the trade
-                Trade trade = new Trade();
-                trade.setBuyOrderVersion(buyOrderVersion);
-                trade.setSellOrderVersion(sellOrderVersion);
-                trade.setPrice(tradePrice);
-                trade.setSize(tradeSize);
-                trade.setTime(LocalDateTime.now());
-                tradeRepository.save(trade);
+                
+                //  Calculates trade values, makes and obect and saves an entry to tb
+                createAndAddTrade(buyOrderVersion, sellOrderVersion, true);
 
                 // create and save new buy order version if there is remaining size, if there is no remaining size set go again to false
-                if (buyOrderVersion.getSize() > tradeSize) {
-                    OrderVersion newBuyOrderVersion = copyOrderVersion(buyOrderVersion, tradeSize);
+                if (buyOrderVersion.getSize() > sellOrderVersion.getSize() ) {
+                    OrderVersion newBuyOrderVersion = makeNewOrderVersion(buyOrderVersion, sellOrderVersion.getSize());
                     
-                    // set buy order version to the fully formed newBuyOrderVersion (with sql auto generated id) for the next performance of the while loop
-                    // and also add new buy order version
+                    // set buyOrderVersion to newBuyOrderVersion (without id) so that a new entry is created on next save at top of while loop
                     buyOrderVersion = newBuyOrderVersion;
 
                 } else {
                     trading = false;
                 }
-
                 // create and save new sell order version if there is remaining size
-                if (sellOrderVersion.getSize() >tradeSize ) {
-                    OrderVersion newSellOrderVersion = copyOrderVersion(sellOrderVersion, tradeSize);
+                if (sellOrderVersion.getSize() > buyOrderVersion.getSize() ) {
+                    OrderVersion newSellOrderVersion = makeNewOrderVersion(sellOrderVersion, buyOrderVersion.getSize());
                    
-                    // set buy order version to the fully formed newBuyOrderVersion (with sql auto generated id) for the next performance of the while loop
+                    // save new sell order (without id), new entry created
                     orderVersionRepository.save(newSellOrderVersion);
-
                 }
-
             } else {
                 trading = false;
             }
         }
-           
     }
     
-    private OrderVersion copyOrderVersion(OrderVersion old, int tradeSize){
+    private void addSellOrderVersion(OrderVersion sellOrderVersion){
+        boolean trading = true;
+        
+        while(trading){
+            // Add entry to database and assign complete fields to object from db 
+            // so that entry is updated on next save (existing fully formed object with id)
+            sellOrderVersion = orderVersionRepository.save(sellOrderVersion);
+            
+             // Get the highest active buy order version, buy order version will be updated on next save (existing fully formed object with id)
+            OrderVersion buyOrderVersion = orderVersionRepository.getActiveBuyOrderVersionsForStock(sellOrderVersion.getOrder().getStock()).get(0);
+            
+            // Check if the price of the sell order version is lower than or equal to the price of the buy order version
+            // If so: do trading logic
+            // If not: set trading to false
+            if (sellOrderVersion.getPrice().compareTo(buyOrderVersion.getPrice()) == -1 || sellOrderVersion.getPrice().compareTo(buyOrderVersion.getPrice())==0){
+                
+                // Change the order versions to inactive and update entries
+                sellOrderVersion.setIsActive(false);
+                orderVersionRepository.save(sellOrderVersion);
+                buyOrderVersion.setIsActive(false);
+                orderVersionRepository.save(buyOrderVersion);
+                
+                //  Calculates trade values, makes and obect and saves an entry to tb
+                createAndAddTrade(buyOrderVersion, sellOrderVersion, false);
+                
+                
+                // create and save new sell order version if there is remaining size, if there is no remaining size set go again to false
+                if (buyOrderVersion.getSize() < sellOrderVersion.getSize()) {
+                    OrderVersion newSellOrderVersion = makeNewOrderVersion(sellOrderVersion, buyOrderVersion.getSize());
+
+                    // set buyOrderVersion to newBuyOrderVersion (without id) so that a new entry is created on next save at top of while loop
+                    sellOrderVersion = newSellOrderVersion;
+
+                } else {
+                    trading = false;
+                }
+                
+                // create and save new sell order version if there is remaining size
+                if (sellOrderVersion.getSize() < buyOrderVersion.getSize() ) {
+                    OrderVersion newBuyOrderVersion = makeNewOrderVersion(buyOrderVersion, sellOrderVersion.getSize());
+                   
+                    // save new sell order (without id), new entry created
+                    orderVersionRepository.save(newBuyOrderVersion);
+                }
+                
+                
+            }else{
+                 trading = false;
+            }
+
+        }
+        
+    }
+    
+    private void createAndAddTrade(OrderVersion buyOrderVersion, OrderVersion sellOrderVersion, boolean buy){
+        // The price of the trade will be executed at the price of the sell order version
+        BigDecimal tradePrice;
+
+        if(buy == true){
+            // The price of the trade will be executed at the price of the sell order version
+            tradePrice = sellOrderVersion.getPrice();
+        }
+        else{
+            // The price of the trade will be executed at the price of the buy order version
+            tradePrice = buyOrderVersion.getPrice();
+        }
+        
+        
+        // The size of the trade will be the minimum size of the buy and sell order versions
+        int tradeSize = Math.min(sellOrderVersion.getSize(), buyOrderVersion.getSize());
+
+        // Create and add the trade
+        Trade trade = new Trade();
+        trade.setBuyOrderVersion(buyOrderVersion);
+        trade.setSellOrderVersion(sellOrderVersion);
+        trade.setPrice(tradePrice);
+        trade.setSize(tradeSize);
+        trade.setTime(LocalDateTime.now());
+        tradeRepository.save(trade);
+    }
+    
+    private OrderVersion makeNewOrderVersion(OrderVersion old, int tradeSize){
         OrderVersion newOne = new OrderVersion();
         newOne.setIsActive(true);
         newOne.setOrder(old.getOrder());
