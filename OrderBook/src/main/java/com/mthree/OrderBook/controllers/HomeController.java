@@ -5,9 +5,26 @@
  */
 package com.mthree.OrderBook.controllers;
 
+import com.mthree.OrderBook.entities.OrderVersion;
+import com.mthree.OrderBook.entities.Stock;
+import com.mthree.OrderBook.entities.Trade;
 import com.mthree.OrderBook.service.serviceLayer;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  *
@@ -18,5 +35,58 @@ public class HomeController {
     
     @Autowired
     serviceLayer service;
+    
+    Set<ConstraintViolation<Stock>> violations = new HashSet<>();
+    
+    @GetMapping("/")
+    public String displayStock(HttpServletRequest request,Model model){
+        List<Stock> stocks = service.getAllStocks();
+        model.addAttribute("stocks",stocks);
+        
+        List <Trade> trades = service.getTradesForDay(LocalDate.now().minusDays(1));
+        model.addAttribute("date",LocalDate.now().minusDays(1));
+        HashMap<Trade, String> tradeStockDataList = new HashMap<Trade,String>();
+        
+        
+        for (Trade trade : trades){
+            HashMap<Trade, String> tradeStockData = new HashMap<>();
+            String stockName = trade.getBuyOrderVersion().getOrder().getStock().getSymbol();
+            tradeStockDataList.put(trade, stockName);
+            
+        }
+        model.addAttribute("tradeStockDataList",tradeStockDataList.entrySet());
+       
+        
+        return "index";
+    }
+    
+    @GetMapping("orderbook")
+    public String orderBook(HttpServletRequest request, Model model){
+        String symbol = request.getParameter("symb");
+        Optional<Stock> stock = service.getStockBySymbol(symbol);
+        List<OrderVersion> buyOrders = service.getActiveOrderVersionsForStock(stock.get(), true);
+        List<OrderVersion> sellOrders = service.getActiveOrderVersionsForStock(stock.get(), false);
+        model.addAttribute("stock",stock.get());
+        model.addAttribute("buyOrders",buyOrders);
+        model.addAttribute("sellOrders",sellOrders);
+        
+        
+        return "orderbook";
+        
+    }
+    
+   
+    
+//    @PostMapping("getTrades")
+//    public String displayTrades(HttpServletRequest request, Model model){
+//        String symbol = request.getParameter("stocks");
+//        System.out.println(symbol);
+//        String date = request.getParameter("date");
+//        System.out.println(date);
+////        List<Trade> trades = service.getTradesForDayAndStock(, )
+//        return "redirect:/index";
+//    }
+    
+    
     
 }

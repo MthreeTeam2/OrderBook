@@ -48,4 +48,6 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
                 + "ORDER BY t.time DESC ")
     List<Trade> getTradesBetweenTimesForStock(Stock stock, LocalDateTime time, LocalDateTime time2);
     
+    
+    
 }

@@ -17,45 +17,39 @@
                     <h1>Order Book</h1>
                 </div>
             </div>
-            <div class="row m-4">
-                <div class="col text-center m-3 border-dark ">
-                    <a href="orderbook" class="btn btn-outline-primary btn-lg">Box 1</a>
-                </div>
-                <div class="col text-center m-3">
-                    <a href="orderbook" class="btn btn-outline-primary btn-lg">Box 2</a>
-                </div>
-                <div class="col text-center m-3">
-                    <a href="orderbook" class="btn btn-outline-primary btn-lg">Box 3</a>
-                </div>
-                <div class="col text-center m-3">
-                    <a href="orderbook" class="btn btn-outline-primary btn-lg">Box 4</a>
+            <div class="row m-4" th:if="${not #lists.isEmpty(stocks)}">
+                <div th:each="stock:${stocks}">
+                     <div class="col text-center m-3 border-dark" >
+                         <a href="#" th:href="@{/orderbook(symb=${stock.symbol})}" class="btn btn-outline-primary btn-lg" th:utext="${stock.symbol} + '<br /> Orders Today: ' + ${stock.ordersToday}+ '<br /> Latest Match: ' + ${stock.latestMatch}"></a>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div th:if="${#lists.isEmpty(stocks)}"><a href="orderbook" class="btn btn-outline-primary btn-lg" >There are currently no stocks, click to add</a>
+            </div>
+        
         <br />
         <div class="container">
             <div class="row m-4">
                 <div class=" col text-center m-3">
                     <div class="col text-center">
-                        <h2>{{Date}} Trades</h2>
+                        <h2 th:text="${date} + ' Trades'"></h2>
                     </div>      
                 </div>
             </div>
             <div class="row m-4">
-                <form class="form-inline" action="getTrades" method="POST">
+                <form class="form-inline" action="getTrades" method="POST" th:action='@{/getTrades}'>
                     <div class="col text-center m-3">
                         <input type="date" name="date"  id="date" class="form-control"/>
                     </div>
                     <div class="col text-center m-3">
-                        <select id="stock" name="stock" class="form-control" >
-                            <option> Stock 1 </option>
-                            <option> Stock 2 </option>
-                            <option> Stock 3 </option>
-                            <option> Stock 4 </option>
+                        <select id="stock" name="stocks" class="form-control">
+                            <option>All</option>
+                            <option th:each='stock:${stocks}' th:text='${stock.symbol}' th:value='${stock.symbol}'> </option>
+                            
                         </select>
                     </div>
                     <div class="col text-center m-3">
-                        <button type="submit" class="btn btn-primary">Get Trades</button> </div>
+                        <button type="button" class="btn btn-primary">Get Trades</button> </div>
                 </form>   </div>                
             <div class="form-group row">
                 <table class="table table-bordered">
@@ -69,27 +63,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>GOOG</td>
-                            <td>LCH</td>
-                            <td>300</td>
-                            <td>3234</td>
-                            <td>25/12/2020 14:35</td>
+                        <tr th:each='entry : ${tradeStockDataList}'>
+                            <td th:text='${entry.getValue()}'></td>
+                            <td th:text='LCH'></td>
+                            
+                            <td th:text='${entry.key.size}'></td>
+                            <td th:text='${entry.key.price}'></td>
+                            <td th:text='${entry.key.time}'></td>
+                        
                         </tr>
-                        <tr>
-                            <td>GOOG</td>
-                            <td>LCH</td>
-                            <td>300</td>
-                            <td>3234</td>
-                            <td>25/12/2020 14:35</td>
-                        </tr>  
-                        <tr>
-                            <td>GOOG</td>
-                            <td>LCH</td>
-                            <td>300</td>
-                            <td>3234</td>
-                            <td>25/12/2020 14:35</td>
-                        </tr>                          
+                        
                     </tbody>
                 </table>
             </div>
@@ -103,4 +86,4 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
-</html>;
+</html>

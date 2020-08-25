@@ -30,16 +30,16 @@
         <div class="container">
             <div class=" col text-center m-3">
                 <div class="col text-center">
-                    <h2>{Clicked Stock Name}</h2>
+                    <h2 th:text="${stock.symbol}"></h2>
                 </div>
             </div>
             <div class="row m-4 border ">
-                <div class=" col text-center m-3">
-                    Orders Today: XXX
+                <div class=" col text-center m-3" th:text="'Orders Today: ' +${stock.ordersToday}">
+                    
                 </div>
                 <button type="submit" class="btn btn-primary">Add Order</button>
-                <div class=" col text-center m-3">
-                    Volume Today: XXX
+                <div class=" col text-center m-3" th:text="'Volume Today: ' +${stock.volumeToday}">
+                    
                 </div>
             </div>
             <div class="row m-4">
@@ -54,36 +54,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>25/12/2020 14:35</td>
+                            <tr th:each="orders: ${buyOrders}">
+                                <td th:text="${orders.time}">25/12/2020 14:35</td>
                                 <td>LCH</td>
-                                <td>300</td>
-                                <td>32.34</td>
+                                <td th:text="${orders.size}">300</td>
+                                <td th:text="${orders.price}">32.34</td>
                             </tr>
-                            <tr>
-                                <td>25/12/2020 14:35</td>
-                                <td>LCH</td>
-                                <td>300</td>
-                                <td>32.34</td>
-                            </tr>
-                            <tr>
-                                <td>25/12/2020 14:35</td>
-                                <td>LCH</td>
-                                <td>300</td>
-                                <td>32.34</td>
-                            </tr>
-                            <tr>
-                                <td>25/12/2020 14:35</td>
-                                <td>LCH</td>
-                                <td>300</td>
-                                <td>32.34</td>
-                            </tr>
-                            <tr>
-                                <td>25/12/2020 14:35</td>
-                                <td>LCH</td>
-                                <td>300</td>
-                                <td>32.34</td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -99,41 +76,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>24.34</td>
-                                <td>300</td>
+                            <tr th:each="orders: ${sellOrders}">
+                                <td th:text="${orders.price}">25/12/2020 14:35</td>
+                                
+                                <td th:text="${orders.size}">300</td>
                                 <td>LCH</td>
-                                <td>25/12/2020 14:35</td>
-                            </tr>
-                            <tr>
-                                <td>24.34</td>
-                                <td>300</td>
-                                <td>LCH</td>
-                                <td>25/12/2020 14:35</td>
-                            </tr>
-                            <tr>
-                                <td>24.34</td>
-                                <td>300</td>
-                                <td>LCH</td>
-                                <td>25/12/2020 14:35</td>
-                            </tr>
-                            <tr>
-                                <td>24.34</td>
-                                <td>300</td>
-                                <td>LCH</td>
-                                <td>25/12/2020 14:35</td>
-                            </tr>
-                            <tr>
-                                <td>24.34</td>
-                                <td>300</td>
-                                <td>LCH</td>
-                                <td>25/12/2020 14:35</td>
-                            </tr>
-                            <tr>
-                                <td>24.34</td>
-                                <td>300</td>
-                                <td>LCH</td>
-                                <td>25/12/2020 14:35</td>
+                                <td th:text="${orders.time}">32.34</td>
                             </tr>
                         </tbody>
                     </table>

@@ -6,6 +6,7 @@
 package com.mthree.OrderBook.dao;
 
 import com.mthree.OrderBook.entities.Stock;
+import com.mthree.OrderBook.entities.Trade;
 import java.io.Serializable;
 import javax.persistence.metamodel.SingularAttribute;
 import org.springframework.data.jpa.domain.AbstractPersistable;
