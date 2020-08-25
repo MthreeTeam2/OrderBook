@@ -315,6 +315,11 @@ public class ServiceLayerImpl implements serviceLayer{
         return tradeRepository.findById(id);
     }
     
+     @Override
+    public List<Trade> getTradesForStock(Stock stock) {
+        return tradeRepository.getTradesForStock(stock);
+    }
+    
     // STOCKS
     @Override
     public List<Stock> getAllStocks(){
@@ -340,6 +345,8 @@ public class ServiceLayerImpl implements serviceLayer{
         audit.setTime(LocalDateTime.now());
         auditRepository.save(audit);
     }
+
+   
     
     
      

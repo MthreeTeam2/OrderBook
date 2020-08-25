@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row m-4">
                 <div class="col text-center">
-                    <h1>Order Book</h1>
+                    <h1><a href="/" class="text-dark">Order Book</a></h1>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <div class=" col text-center m-3" th:text="'Orders Today: ' +${stock.ordersToday}">
                     
                 </div>
-                <button type="submit" class="btn btn-primary">Add Order</button>
+                <a href="#" th:href="@{/neworder(symb=${stock.symbol})}" type="submit" class="btn btn-primary">Add Order</a>
                 <div class=" col text-center m-3" th:text="'Volume Today: ' +${stock.volumeToday}">
                     
                 </div>
@@ -56,7 +56,7 @@
                         <tbody>
                             <tr th:each="orders: ${buyOrders}">
                                 <td th:text="${orders.time}">25/12/2020 14:35</td>
-                                <td>LCH</td>
+                                <td th:text="${orders.order.party.symbol}">LCH</td>
                                 <td th:text="${orders.size}">300</td>
                                 <td th:text="${orders.price}">32.34</td>
                             </tr>
@@ -80,7 +80,7 @@
                                 <td th:text="${orders.price}">25/12/2020 14:35</td>
                                 
                                 <td th:text="${orders.size}">300</td>
-                                <td>LCH</td>
+                                <td th:text="${orders.order.party.symbol}"></td>
                                 <td th:text="${orders.time}">32.34</td>
                             </tr>
                         </tbody>
@@ -103,11 +103,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>LCH</td>
-                            <td>300</td>
-                            <td>3234</td>
-                            <td>25/12/2020 14:35</td>
+                        <tr th:each="trade : ${trades}">
+                            <td th:text="LCH">LCH</td>
+                            <td th:text="${trade.size}">300</td>
+                            <td th:text="${trade.price}">3234</td>
+                            <td th:text="${trade.time}">25/12/2020 14:35</td>
                         </tr>
                     </tbody>
                 </table>
@@ -121,4 +121,4 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
-</html>;
+</html>

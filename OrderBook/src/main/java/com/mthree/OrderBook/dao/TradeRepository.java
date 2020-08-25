@@ -47,6 +47,13 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
                + "WHERE s = ?1 AND t.time > ?2 AND time < ?3 "
                 + "ORDER BY t.time DESC ")
     List<Trade> getTradesBetweenTimesForStock(Stock stock, LocalDateTime time, LocalDateTime time2);
+    @Query("SELECT t FROM trades t "
+            + "JOIN orderversion ov on t.buyOrderVersion=ov.id "
+            + "JOIN orders o on ov.order = o.id "
+            + "JOIN Stock s on o.stock = s.id "
+            + "WHERE s = ?1 "
+            + "ORDER by t.time DESC")
+    List<Trade> getTradesForStock(Stock stock);
     
     
     

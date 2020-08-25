@@ -6,6 +6,7 @@
 package com.mthree.OrderBook.controllers;
 
 import com.mthree.OrderBook.entities.OrderVersion;
+import com.mthree.OrderBook.entities.Party;
 import com.mthree.OrderBook.entities.Stock;
 import com.mthree.OrderBook.entities.Trade;
 import com.mthree.OrderBook.service.serviceLayer;
@@ -63,18 +64,33 @@ public class HomeController {
     @GetMapping("orderbook")
     public String orderBook(HttpServletRequest request, Model model){
         String symbol = request.getParameter("symb");
+        System.out.println("Symbol Order"+ symbol);
         Optional<Stock> stock = service.getStockBySymbol(symbol);
         List<OrderVersion> buyOrders = service.getActiveOrderVersionsForStock(stock.get(), true);
         List<OrderVersion> sellOrders = service.getActiveOrderVersionsForStock(stock.get(), false);
+        List<Trade> trades = service.getTradesForStock(stock.get());
         model.addAttribute("stock",stock.get());
         model.addAttribute("buyOrders",buyOrders);
         model.addAttribute("sellOrders",sellOrders);
-        
+        model.addAttribute("trades",trades);
         
         return "orderbook";
         
     }
     
+    @GetMapping("neworder")
+    public String addOrder(HttpServletRequest request, Model model){
+        String symbol = request.getParameter("symb");
+        
+        Optional<Stock> s = service.getStockBySymbol(symbol);
+        List<Party> parties = service.getAllPartys();
+        
+        model.addAttribute("stock",s.get());
+        model.addAttribute("parties",parties);
+                
+        
+        return "neworder";
+    }
    
     
 //    @PostMapping("getTrades")
