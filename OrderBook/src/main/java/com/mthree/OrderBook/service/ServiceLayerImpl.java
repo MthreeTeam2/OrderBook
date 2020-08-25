@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,7 @@ public class ServiceLayerImpl implements serviceLayer{
     }
     
     @Override
+    @Transactional
     public void cancelOrder(Order order){
         OrderVersion latest = orderVersionRepository.findByOrderOrderByIdDesc(order).get(0);
         latest.setIsActive(false);
@@ -72,10 +74,21 @@ public class ServiceLayerImpl implements serviceLayer{
     }
     
     @Override
+    @Transactional
     public void addOrder(OrderVersion orderVersion){
 
         // Add the order to the database and orderVersion to the Database
-        orderRepository.save(orderVersion.getOrder());
+        Order order = orderVersion.getOrder();
+        orderRepository.save(order);
+        String buyString;
+        if(order.isIsBuy()== true){
+            buyString = " BUY ";
+        }
+        else{
+            buyString = " SELL ";
+        }
+            
+        writeAudit("ORDER " + order.getId() + ": " + order.getParty().getSymbol() + buyString + order.getStock().getSymbol() + " CREATED.");
         
         // Add and trade with the new  order version
         // potentially creates new buy orderversion, sell orderversions, and trades
@@ -88,7 +101,18 @@ public class ServiceLayerImpl implements serviceLayer{
     }
     
     @Override
+    @Transactional
     public void updateOrder(OrderVersion orderVersion){
+        Order order = orderVersion.getOrder();
+        String buyString;
+        if(order.isIsBuy()== true){
+            buyString = " BUY ";
+        }
+        else{
+            buyString = " SELL ";
+        }
+            
+        writeAudit("ORDER " + order.getId() + ": " + order.getParty().getSymbol() + buyString + order.getStock().getSymbol() + " UPDATED.");
         
         // Add and trade with the new  order version
         // potentially creates new buy orderversion, sell orderversions, and trades
@@ -99,6 +123,7 @@ public class ServiceLayerImpl implements serviceLayer{
         }
     }
     
+    @Transactional
     private void addBuyOrderVersion(OrderVersion buyOrderVersion){
         // create variable which determines whether to keep trading 
         boolean trading = true;
@@ -148,6 +173,7 @@ public class ServiceLayerImpl implements serviceLayer{
         }
     }
     
+    @Transactional
     private void addSellOrderVersion(OrderVersion sellOrderVersion){
         boolean trading = true;
         
@@ -202,6 +228,7 @@ public class ServiceLayerImpl implements serviceLayer{
         
     }
     
+    @Transactional
     private void createAndAddTrade(OrderVersion buyOrderVersion, OrderVersion sellOrderVersion, boolean buy){
         // The price of the trade will be executed at the price of the sell order version
         BigDecimal tradePrice;
@@ -218,6 +245,8 @@ public class ServiceLayerImpl implements serviceLayer{
         
         // The size of the trade will be the minimum size of the buy and sell order versions
         int tradeSize = Math.min(sellOrderVersion.getSize(), buyOrderVersion.getSize());
+        
+        
 
         // Create and add the trade
         Trade trade = new Trade();
@@ -226,7 +255,9 @@ public class ServiceLayerImpl implements serviceLayer{
         trade.setPrice(tradePrice);
         trade.setSize(tradeSize);
         trade.setTime(LocalDateTime.now());
-        tradeRepository.save(trade);
+        trade = tradeRepository.save(trade);
+        
+        writeAudit("TRADE " + trade.getId() + " BUY ORDER VERSION: " + buyOrderVersion.getId() + " SELL ORDER VERSION: " + sellOrderVersion.getId() + " PRICE: " + tradePrice + " SIZE: " + tradeSize);
     }
     
     private OrderVersion makeNewOrderVersion(OrderVersion old, int tradeSize){
