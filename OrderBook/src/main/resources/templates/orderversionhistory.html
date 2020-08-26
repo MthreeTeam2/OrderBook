@@ -68,7 +68,7 @@
             </div>
             <div class="col text-center">
                 <a th:if ="${active == true}" href="#" th:href="@{/amendorder(orderid=${order.id})}" class="btn btn-primary">Amend Order</a>
-                <a th:if ="${active == true}" class="btn btn-primary">Cancel Order</a>
+                <a th:if ="${active == true}" href="#" th:href="@{/cancelorder(orderId=${order.id})}" class="btn btn-primary">Cancel Order</a>
                 <a href="#" th:href="@{/orderbook(symb=${order.stock.symbol})}" class="btn btn-primary">Back</a>
             </div> 
         </div>

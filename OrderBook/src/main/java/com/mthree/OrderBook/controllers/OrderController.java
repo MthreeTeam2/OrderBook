@@ -142,11 +142,6 @@ public class OrderController {
        
         
         OrderVersion ov = new OrderVersion();
-        
-        
-       
-        
-        
         try {
             int size = Integer.parseInt(request.getParameter("size"));
             BigDecimal price = new BigDecimal(request.getParameter("ticker")).setScale(2, RoundingMode.HALF_UP);
@@ -161,6 +156,14 @@ public class OrderController {
         service.updateOrder(ov);
         String stockSymbol = order.get().getStock().getSymbol();
         return "redirect:/orderbook?symb="+stockSymbol;
+    }
+    
+    @GetMapping("cancelorder")
+    public String cancelOrder(HttpServletRequest request){
+        int id = Integer.parseInt(request.getParameter("orderId"));
+        Optional<Order> order = service.getOrderById(id);
+        service.cancelOrder(order.get());
+        return "redirect:/orderversionhistory?orderId="+id;
     }
     
     
