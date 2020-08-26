@@ -79,7 +79,7 @@ public class OrderController {
         ov.setOrder(order);
         
         service.addOrder(ov);
-        System.out.println("Order:"+ov.toString());
+        
         
         
         return "redirect:/orderbook?symb="+stockSymbol;
@@ -130,6 +130,38 @@ public class OrderController {
         List<Party> parties = service.getAllPartys();
         model.addAttribute("parties",parties);
         return "amendorder";
+    }
+    
+    @PostMapping("amendorder")
+    public String performAmendOrder(HttpServletRequest request, Model model){
+        int id = Integer.parseInt(request.getParameter("orderid"));
+        Optional<Order> order = service.getOrderById(id);
+        String symbol = request.getParameter("parties");
+        Optional<Party> party = service.getPartyBySymbol(symbol);
+        Boolean isBuy = true;
+        OrderVersion ov = new OrderVersion();
+        String buySell = request.getParameter("isBuy");
+        if (buySell.equals("Sell")){
+            isBuy = false;
+        }
+        order.get().setIsBuy(isBuy);
+        order.get().setParty(party.get());
+        
+        
+        try {
+            int size = Integer.parseInt(request.getParameter("size"));
+            BigDecimal price = new BigDecimal(request.getParameter("ticker")).setScale(2, RoundingMode.HALF_UP);
+            ov.setPrice(price);
+            ov.setSize(size);
+        } catch (NullPointerException nfe){
+            
+        }
+        ov.setOrder(order.get());
+        ov.setTime(LocalDateTime.now());
+        ov.setIsActive(true);
+        service.updateOrder(ov);
+        String stockSymbol = order.get().getStock().getSymbol();
+        return "/orderbook?symb="+stockSymbol;
     }
     
     

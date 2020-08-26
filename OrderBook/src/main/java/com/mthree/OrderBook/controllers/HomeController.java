@@ -48,10 +48,10 @@ public class HomeController {
             s.setVolumeToday(service.getVolumeTradedTodayForStock(s));
         }
         model.addAttribute("stocks",stocks);
-                
-        List <Trade> trades = service.getTradesForDay(LocalDate.now());
+        LocalDate today = LocalDate.now();
+        List <Trade> trades = service.getTradesForDay(today);
         model.addAttribute("trades", trades);
-        model.addAttribute("date", LocalDate.now().minusDays(1));
+        model.addAttribute("date", today);
         
 
        
@@ -67,6 +67,9 @@ public class HomeController {
         List<OrderVersion> buyOrders = service.getActiveOrderVersionsForStock(stock.get(), true);
         List<OrderVersion> sellOrders = service.getActiveOrderVersionsForStock(stock.get(), false);
         List<Trade> trades = service.getTradesForStock(stock.get());
+        stock.get().setOrdersToday(service.getNumTradesTodayForStock(stock.get()));
+        stock.get().setLatestMatch(service.getLatestMatchForStock(stock.get()));
+        stock.get().setVolumeToday(service.getVolumeTradedTodayForStock(stock.get()));
         model.addAttribute("stock",stock.get());
         model.addAttribute("buyOrders",buyOrders);
         model.addAttribute("sellOrders",sellOrders);
