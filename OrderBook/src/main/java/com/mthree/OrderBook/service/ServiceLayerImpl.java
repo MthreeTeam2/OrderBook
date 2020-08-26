@@ -345,6 +345,15 @@ public class ServiceLayerImpl implements serviceLayer{
     }
     
     @Override
+    public List<Trade> getTradesForOrderVersion(OrderVersion orderVersion){
+        if(orderVersion.getOrder().isIsBuy() == true){
+            return tradeRepository.findBybuyOrderVersion(orderVersion);
+        }else{
+            return tradeRepository.findBysellOrderVersion(orderVersion);
+        }
+    }
+    
+    @Override
     public List<Trade> getTradesForDay(LocalDate day){
         LocalDate dayPlusOne = day.plusDays(1);
         return tradeRepository.getTradesBetweenTimes(day.atStartOfDay(), dayPlusOne.atStartOfDay());

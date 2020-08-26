@@ -39,6 +39,7 @@ public interface serviceLayer {
     public List<Trade> getTradesForDayAndStock(LocalDate day, Stock stock);
     public Optional<Trade> getTradeById(int id);
     public List<Trade> getTradesForStock(Stock stock);
+    public List<Trade> getTradesForOrderVersion(OrderVersion orderVersion);
     
     //STOCKS
     public List<Stock> getAllStocks();
