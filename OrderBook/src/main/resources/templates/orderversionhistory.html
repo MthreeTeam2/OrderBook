@@ -59,16 +59,17 @@
                             
                         </tbody>
                     </table>
-                    <br />
                     
-                  <div class="col text-center">
-                        <button a href="#" th:href="@{/amendorder(id)}"class="btn btn-primary">Amend Order</button>
-                        <button class="btn btn-primary">Cancel Order</button>
-                    </div>  
+                    
+                   
                 </div>
                 
                 
             </div>
+            <div class="col text-center">
+                <button a href="#" th:href="@{/amendorder(orderid=${order.id})}" class="btn btn-primary">Amend Order</button>
+                <button class="btn btn-primary">Cancel Order</button>
+            </div> 
         </div>
 
         <!-- Optional JavaScript -->

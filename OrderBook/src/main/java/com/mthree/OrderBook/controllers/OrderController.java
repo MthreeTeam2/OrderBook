@@ -40,11 +40,7 @@ public class OrderController {
     @Autowired
     serviceLayer service;
     
-    @Autowired
-    PartyRepository partyRep;
-    
-    @Autowired
-    OrderRepository orderRep;
+   
     
 
     
@@ -57,7 +53,7 @@ public class OrderController {
         String buySell = request.getParameter("isBuy");
         Boolean isBuy = true;
         OrderVersion ov = new OrderVersion();
-        Optional<Party> party = partyRep.findById(partySymbol);
+        Optional<Party> party = service.getPartyBySymbol(partySymbol);
         
         
         Optional<Stock> stock = service.getStockBySymbol(stockSymbol);
@@ -106,7 +102,9 @@ public class OrderController {
     
     @GetMapping("orderversionhistory")
     public String orderversionDetails(HttpServletRequest request, Model model){
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("orderId"));
+        System.out.println(id);
+        
         Optional<Order> order = service.getOrderById(id);
         System.out.println(order);
         model.addAttribute("order",order.get());
@@ -121,6 +119,14 @@ public class OrderController {
         List<OrderVersion> ovList = service.getAllOrderVersionsForOrder(order.get());
         model.addAttribute("orderVersions",ovList);
         return "orderversionhistory";
+    }
+    
+    @GetMapping("amendorder")
+    public String amendOrder(HttpServletRequest request, Model model){
+        int id = Integer.parseInt(request.getParameter("orderid"));
+        System.out.println(id);
+        
+        return "amendorder";
     }
     
     
