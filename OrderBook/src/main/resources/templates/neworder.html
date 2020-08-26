@@ -58,7 +58,7 @@
                             <label class="col-3 col-form-label">
                                 Price </label>
                             <div class="col-9">
-                                <input type="number" step="{stock.tick}" name="ticker" id="ticker" class="form-control"/>
+                                <input type="number" th:step="${stock.tickSize}" name="ticker" id="ticker" class="form-control"/>
                             </div>
                         </div>
                         <br />

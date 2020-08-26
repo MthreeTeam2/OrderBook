@@ -48,7 +48,7 @@ public class HomeController {
             s.setVolumeToday(service.getVolumeTradedTodayForStock(s));
         }
         model.addAttribute("stocks",stocks);
-        
+                
         List <Trade> trades = service.getTradesForDay(LocalDate.now());
         model.addAttribute("trades", trades);
         model.addAttribute("date", LocalDate.now().minusDays(1));
@@ -91,15 +91,6 @@ public class HomeController {
     }
    
     
-//    @PostMapping("getTrades")
-//    public String displayTrades(HttpServletRequest request, Model model){
-//        String symbol = request.getParameter("stocks");
-//        System.out.println(symbol);
-//        String date = request.getParameter("date");
-//        System.out.println(date);
-////        List<Trade> trades = service.getTradesForDayAndStock(, )
-//        return "redirect:/index";
-//    }
     
     
     

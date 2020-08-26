@@ -30,14 +30,19 @@
                     <label class="col-3 col-form-label">
                         Counter Party</label>
                     <div class="col-9">
-                        <input type="text" readonly name="counterparty" value="{counterparty}" id="counterparty" class="form-control"/>
+                        <select id="counterparty" name="parties" class="form-control" >
+                                    <option th:each="party : ${parties}" th:text="${party.symbol}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-3 col-form-label">
                         Buy or Sell ?</label>
                     <div class="col-9">
-                        <input type="text" readonly name="isBuy" value="{Buy}" id="isBuy" class="form-control"/>
+                        <select id="isBuy" name="isBuy" class="form-control" >
+                                    <option> Buy </option>
+                                    <option> Sell </option>
+                                </select>
   </div>
                 </div>
                 <div class="form-group row">
@@ -51,7 +56,7 @@
                     <label class="col-3 col-form-label">
                         Price </label>
                     <div class="col-9">
-                        <input type="number" step="0.05" name="ticker" id="ticker" class="form-control"/>
+                        <input type="number" th:step="{order.stock.tickSize}" name="ticker" id="ticker" class="form-control"/>
                     </div>
                 </div>
                 <br />

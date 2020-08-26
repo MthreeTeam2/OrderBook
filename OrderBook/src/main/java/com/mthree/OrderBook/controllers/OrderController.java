@@ -41,10 +41,6 @@ public class OrderController {
     @Autowired
     serviceLayer service;
     
-   
-    
-
-    
 //    Set<ConstraintViolation<OrderVersion>> oVviolations = new HashSet<>();
     
     @PostMapping("neworder")
@@ -89,17 +85,7 @@ public class OrderController {
         return "redirect:/orderbook?symb="+stockSymbol;
         
     }
-//    @GetMapping("sightingsDetails")
-//    public String sightingDetails(HttpServletRequest request, Model model){
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        Sightings sighting = sightingDao.getSightingById(id);
-//        Location l = sighting.getLocation();
-//        SuperPerson sp = sighting.getSuperperson();
-//        model.addAttribute("location",l);
-//        model.addAttribute("super",sp);
-//        model.addAttribute("sighting",sighting);
-//        return "sightingsDetails";
-//    }
+
     
     @GetMapping("orderversionhistory")
     public String orderversionDetails(HttpServletRequest request, Model model){
@@ -129,11 +115,21 @@ public class OrderController {
     }
     
     @GetMapping("amendorder")
-    public String amendOrder(int id, Model model){
+    public String amendOrder(HttpServletRequest request, Model model){
+        int id = Integer.parseInt(request.getParameter("orderid"));
+        Optional<Order> order = service.getOrderById(id);
         
-        System.out.println(id);
-        
-        return "/";
+        model.addAttribute("order",order.get());
+        Boolean isBuy = order.get().isIsBuy();
+        if (isBuy == true){
+            model.addAttribute("buySell","BUY");
+        }
+        else if (isBuy == false){
+            model.addAttribute("buySell","SELL");
+        }
+        List<Party> parties = service.getAllPartys();
+        model.addAttribute("parties",parties);
+        return "amendorder";
     }
     
     
