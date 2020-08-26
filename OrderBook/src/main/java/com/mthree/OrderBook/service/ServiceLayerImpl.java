@@ -363,7 +363,14 @@ public class ServiceLayerImpl implements serviceLayer{
     
      @Override
     public List<Trade> getTradesForStock(Stock stock) {
-        return tradeRepository.getTradesForStock(stock).subList(0, 10);
+        List<Trade> trades = tradeRepository.getTradesForStock(stock);
+        int size;
+        if(trades.size()<10){
+            size = trades.size();
+        }else{
+            size = 10;
+        }
+        return tradeRepository.getTradesForStock(stock).subList(0, size);
     }
     
     // STOCKS
