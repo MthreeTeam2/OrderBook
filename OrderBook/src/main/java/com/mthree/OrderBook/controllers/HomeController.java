@@ -37,7 +37,7 @@ public class HomeController {
     @Autowired
     serviceLayer service;
     
-    Set<ConstraintViolation<Stock>> violations = new HashSet<>();
+   
     
     @GetMapping("/")
     public String displayStock(HttpServletRequest request,Model model){
@@ -88,6 +88,7 @@ public class HomeController {
         
         model.addAttribute("stock",s.get());
         model.addAttribute("parties",parties);
+        
                 
         
         return "neworder";

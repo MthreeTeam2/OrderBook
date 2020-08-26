@@ -65,20 +65,26 @@ public class OrderController {
         order.setStock(stock.get());
         order.setIsBuy(isBuy);
         try {
-            int size = Integer.parseInt(request.getParameter("size"));
-            BigDecimal price = new BigDecimal(request.getParameter("ticker")).setScale(2, RoundingMode.HALF_UP);
-            ov.setPrice(price);
-            ov.setSize(size);
-        } catch (NullPointerException nfe){
+            String size = request.getParameter("size");
+            String price = request.getParameter("ticker");
+            
+            if (!size.isBlank() && !size.isEmpty()){
+                BigDecimal priceDB = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+                int sizeDB = Integer.parseInt(size);
+                ov.setPrice(priceDB);
+                ov.setSize(sizeDB);
+                ov.setIsActive(true);
+                ov.setTime(LocalDateTime.now());
+                ov.setOrder(order);
+                service.addOrder(ov);
+            }
+            else {
+                return "redirect:/orderbook?symb="+stockSymbol;
+            }
+        } catch (NumberFormatException nfe){
             
         }
-        ov.setIsActive(true);
-        ov.setTime(LocalDateTime.now());
         
-
-        ov.setOrder(order);
-        
-        service.addOrder(ov);
         
         
         
@@ -143,19 +149,33 @@ public class OrderController {
         
         OrderVersion ov = new OrderVersion();
         try {
-            int size = Integer.parseInt(request.getParameter("size"));
-            BigDecimal price = new BigDecimal(request.getParameter("ticker")).setScale(2, RoundingMode.HALF_UP);
-            ov.setPrice(price);
-            ov.setSize(size);
-        } catch (NullPointerException nfe){
+            String size = request.getParameter("size");
+            String price = request.getParameter("ticker");
             
+            if (!size.isBlank() && !size.isEmpty()){
+                BigDecimal priceDB = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+                int sizeDB = Integer.parseInt(size);
+                ov.setPrice(priceDB);
+                ov.setSize(sizeDB);
+                
+            }
+            else {
+                return "redirect:/orderversionhistory?orderId="+id;
+            }
+            
+            
+            ov.setOrder(order.get());
+            ov.setTime(LocalDateTime.now());
+            ov.setIsActive(true);
+            service.updateOrder(ov);
+        } catch (NumberFormatException nfe){
+             
         }
-        ov.setOrder(order.get());
-        ov.setTime(LocalDateTime.now());
-        ov.setIsActive(true);
-        service.updateOrder(ov);
-        String stockSymbol = order.get().getStock().getSymbol();
-        return "redirect:/orderbook?symb="+stockSymbol;
+        
+        
+        
+        
+        return "redirect:/orderversionhistory?orderId="+id;
     }
     
     @GetMapping("cancelorder")
