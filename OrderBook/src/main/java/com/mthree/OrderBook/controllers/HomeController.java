@@ -42,6 +42,11 @@ public class HomeController {
     @GetMapping("/")
     public String displayStock(HttpServletRequest request,Model model){
         List<Stock> stocks = service.getAllStocks();
+        for(Stock s : stocks){
+            s.setOrdersToday(service.getNumTradesTodayForStock(s));
+            s.setLatestMatch(service.getLatestMatchForStock(s));
+            s.setVolumeToday(service.getVolumeTradedTodayForStock(s));
+        }
         model.addAttribute("stocks",stocks);
         
         List <Trade> trades = service.getTradesForDay(LocalDate.now().minusDays(1));

@@ -396,9 +396,9 @@ public class ServiceLayerImpl implements serviceLayer{
     
     @Override
     public BigDecimal getLatestMatchForStock(Stock stock){
-        Optional<Trade> trade = tradeRepository.getLatestTradeForStock(stock);
-        if(trade.isPresent()){
-            return trade.get().getPrice();
+        List<Trade> trades = tradeRepository.getTradesForStock(stock);
+        if(trades.size()>0){
+            return trades.get(0).getPrice();
         }else{
             return null;
         }

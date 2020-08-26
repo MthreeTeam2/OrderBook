@@ -39,34 +39,30 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
     List<Trade> findBysellOrderVersion(OrderVersion orderVersion);
      
     @Query("SELECT t FROM trades t "
-            + "WHERE t.time > ?1 AND time < ?2 "
-            + "ORDER BY t.time DESC ")
+            + "WHERE t.time > ?1 AND t.time < ?2 "
+            + "ORDER BY t.id DESC ")
     List<Trade> getTradesBetweenTimes(LocalDateTime time1, LocalDateTime time2);
     
     @Query("SELECT t FROM trades t "
                + "JOIN orderversion ov on t.buyOrderVersion = ov.id "
                 + "JOIN orders o on ov.order = o.id "
                 + "JOIN  Stock s on o.stock = s.id "
-               + "WHERE s = ?1 AND t.time > ?2 AND time < ?3 "
-                + "ORDER BY t.time DESC ")
+               + "WHERE s = ?1 AND t.time > ?2 AND t.time < ?3 "
+                + "ORDER BY t.id DESC ")
     List<Trade> getTradesBetweenTimesForStock(Stock stock, LocalDateTime time, LocalDateTime time2);
+    
     @Query("SELECT t FROM trades t "
             + "JOIN orderversion ov on t.buyOrderVersion=ov.id "
             + "JOIN orders o on ov.order = o.id "
             + "JOIN Stock s on o.stock = s.id "
             + "WHERE s = ?1 "
-            + "ORDER by t.time DESC")
+            + "ORDER by t.id DESC")
     List<Trade> getTradesForStock(Stock stock);
     
     
     
     
-     @Query("SELECT t FROM trades t "
-            + "JOIN orderversion ov on t.buyOrderVersion=ov.id "
-            + "JOIN orders o on ov.order = o.id "
-            + "JOIN Stock s on o.stock = s.id "
-            + "WHERE s = ?1 AND t.id = (SELECT MAX(id) FROM trades)" )
-    Optional<Trade> getLatestTradeForStock(Stock stock);
+    
             
     
     

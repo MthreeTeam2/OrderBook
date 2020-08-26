@@ -38,7 +38,7 @@
             <div class="row m-4" th:if="${not #lists.isEmpty(stocks)}">
                 <div th:each="stock:${stocks}">
                      <div class="col text-center m-3 border-dark" >
-                         <a href="#" th:href="@{/orderbook(symb=${stock.symbol})}" class="btn btn-outline-primary btn-lg" th:utext="${stock.symbol} + '<br /> Latest Match: ' + ${stock.latestMatch} + '<br /> Orders Today: ' + ${stock.ordersToday}+
+                         <a href="#" th:href="@{/orderbook(symb=${stock.symbol})}" class="btn btn-outline-primary btn-lg" th:utext="${stock.symbol} + '<br /> Latest Match: ' + ${stock.latestMatch} + '<br /> Trades Today: ' + ${stock.ordersToday}+
                              '<br /> Volume Today: ' + ${stock.volumeToday}"></a>
                     </div>
                 </div>
