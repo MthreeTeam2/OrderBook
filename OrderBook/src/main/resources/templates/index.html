@@ -4,7 +4,25 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+        <style style="text/css">
+            .my-custom-scrollbar {
+                position: relative;
+                height: 300px;
+                overflow: auto;
+            }
+            .table-wrapper-scroll-y {
+                display: block;
+            }
+            .hoverTable tr:hover {
+                background-color: #b8d1f3;
+            }
+            .hoverTable thead:hover{
+                background-color: white;
+            }
+            .hoverHeader tr:hover{
+                 background-color: white;
+            }
+        </style>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -28,7 +46,7 @@
             <div th:if="${#lists.isEmpty(stocks)}"><a href="orderbook" class="btn btn-outline-primary btn-lg" >There are currently no stocks, click to add</a>
             </div>
         
-        <br />
+        
         <div class="container">
             <div class="row m-4">
                 <div class=" col text-center m-3">
@@ -52,10 +70,10 @@
                     <div class="col text-center m-3">
                         <button type="button" class="btn btn-primary">Get Trades</button> </div>
                 </form>   </div>                
-            <div class="form-group row">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
+            <div class="form-group row table-wrapper-scroll-y my-custom-scrollbar ">
+                <table class="table table-bordered hoverTable">
+                    <thead class="hoverHeader"  >
+                        <tr >
                             <th>Stock</th>
                             <th>Counter Party</th>
                             <th>Size</th>
@@ -64,10 +82,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each='entry : ${tradeStockDataList}'>
+<!--                        th:onclick="|window.location.href='/editLocation?id=${location.LocationId}'|"-->
+                        <tr th:each='entry : ${tradeStockDataList}' th:onclick="|window.location.href='/tradedetails?id=${entry.key.id}'|">
                             <td th:text='${entry.getValue()}'></td>
-                            <td th:text='LCH'></td>
-                            
+                            <td th:text='LCH'></td>                            
                             <td th:text='${entry.key.size}'></td>
                             <td th:text='${entry.key.price}'></td>
                             <td th:text='${entry.key.time}'></td>
