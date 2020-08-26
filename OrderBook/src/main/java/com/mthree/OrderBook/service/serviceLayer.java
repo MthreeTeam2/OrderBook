@@ -10,6 +10,7 @@ import com.mthree.OrderBook.entities.OrderVersion;
 import com.mthree.OrderBook.entities.Party;
 import com.mthree.OrderBook.entities.Stock;
 import com.mthree.OrderBook.entities.Trade;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +42,13 @@ public interface serviceLayer {
     //STOCKS
     public List<Stock> getAllStocks();
     public Optional<Stock> getStockBySymbol(String symbol);
+    public int getNumTradesTodayForStock(Stock stock);
+    public int getVolumeTradedTodayForStock(Stock stock);
+    public BigDecimal getLatestMatchForStock(Stock stock);
+    
     
     //PARTYS
     public List<Party> getAllPartys();
+    public Optional<Party> getPartyBySymbol(String symbol);
     
 }

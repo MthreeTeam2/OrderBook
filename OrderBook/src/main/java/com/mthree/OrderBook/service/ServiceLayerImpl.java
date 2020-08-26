@@ -300,6 +300,14 @@ public class ServiceLayerImpl implements serviceLayer{
         return orderVersionRepository.findByOrderOrderByIdDesc(order);
     }
     
+//    public String getStatusForOrderVersion(OrderVersion orderVersion){
+//        if(orderVersion.isIsActive()==true){
+//            return "Active";
+//        }else{
+//            if(tradeRepository.)
+//        }
+//    }
+    
     
     // TRADES
     @Override
@@ -330,7 +338,7 @@ public class ServiceLayerImpl implements serviceLayer{
     
      @Override
     public List<Trade> getTradesForStock(Stock stock) {
-        return tradeRepository.getTradesForStock(stock);
+        return tradeRepository.getTradesForStock(stock).subList(0, 10);
     }
     
     // STOCKS
@@ -343,12 +351,37 @@ public class ServiceLayerImpl implements serviceLayer{
     public Optional<Stock> getStockBySymbol(String symbol){
         return stockRepository.findById(symbol);
     }
+    
+    @Override
+    public int getNumTradesTodayForStock(Stock stock){
+         return getTradesForDayAndStock(LocalDate.now(), stock).size();
+    }
+    
+    @Override
+    public int getVolumeTradedTodayForStock(Stock stock){
+        return getTradesForDayAndStock(LocalDate.now(), stock).stream().mapToInt(t -> t.getSize()).sum();
+    }
+    
+    @Override
+    public BigDecimal getLatestMatchForStock(Stock stock){
+        Optional<Trade> trade = tradeRepository.getLatestTradeForStock(stock);
+        if(trade.isPresent()){
+            return trade.get().getPrice();
+        }else{
+            return null;
+        }
+    }
      
     
     // PARTYS
     @Override 
     public List<Party> getAllPartys(){
         return partyRepository.findAll();
+    }
+    
+    @Override
+    public Optional<Party> getPartyBySymbol(String symbol){
+        return partyRepository.findById(symbol);
     }
     
     // AUDIT
