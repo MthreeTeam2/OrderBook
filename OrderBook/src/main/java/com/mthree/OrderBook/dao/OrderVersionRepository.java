@@ -43,4 +43,5 @@ public interface OrderVersionRepository extends JpaRepository<OrderVersion, Inte
             + "ORDER BY ov.price ASC")
     List <OrderVersion> getActiveSellOrderVersionsForStock(Stock stock);
     
+    
 }
