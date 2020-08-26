@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -54,6 +55,17 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
             + "WHERE s = ?1 "
             + "ORDER by t.time DESC")
     List<Trade> getTradesForStock(Stock stock);
+    
+    
+    
+    
+     @Query("SELECT t FROM trades t "
+            + "JOIN orderversion ov on t.buyOrderVersion=ov.id "
+            + "JOIN orders o on ov.order = o.id "
+            + "JOIN Stock s on o.stock = s.id "
+            + "WHERE s = ?1 AND t.id = (SELECT MAX(id) FROM trades)" )
+    Optional<Trade> getLatestTradeForStock(Stock stock);
+            
     
     
     
