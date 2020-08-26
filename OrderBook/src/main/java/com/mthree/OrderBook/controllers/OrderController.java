@@ -129,11 +129,11 @@ public class OrderController {
     }
     
     @GetMapping("amendorder")
-    public String amendOrder(HttpServletRequest request, Model model){
-        int id = Integer.parseInt(request.getParameter("orderid"));
+    public String amendOrder(int id, Model model){
+        
         System.out.println(id);
         
-        return "amendorder";
+        return "/";
     }
     
     

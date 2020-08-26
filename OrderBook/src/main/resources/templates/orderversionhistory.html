@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row m-4">
                 <div class="col text-center">
-                    <h1>Order Book</h1>
+                    <h1><a href="/" class="text-dark">Order Book</a></h1>
                 </div>
             </div>
         </div>
@@ -67,8 +67,9 @@
                 
             </div>
             <div class="col text-center">
-                <button a href="#" th:href="@{/amendorder(orderid=${order.id})}" class="btn btn-primary">Amend Order</button>
-                <button class="btn btn-primary">Cancel Order</button>
+                <a href="#" th:href="@{/amendorder(orderid=${order.id})}" class="btn btn-primary">Amend Order</a>
+                <a class="btn btn-primary">Cancel Order</a>
+                <a href="#" th:href="@{/orderbook(symb=${order.stock.symbol})}" class="btn btn-primary">Back</a>
             </div> 
         </div>
 

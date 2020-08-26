@@ -22,6 +22,9 @@
             .hoverHeader tr:hover{
                  background-color: white;
             }
+            .data-href{
+                cursor: pointer;
+            }
         </style>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -69,7 +72,7 @@
                     </thead>
                     <tbody>
 
-                        <tr th:each='trade : ${trades}' th:onclick="|window.location.href='/tradedetails?id=${trade.id}'|">
+                        <tr th:each='trade : ${trades}' th:onclick="|window.location.href='/tradedetails?id=${trade.id}'|" class="data-href">
                             <td th:text='${trade.getBuyOrderVersion().getOrder().getStock().getSymbol()}'></td>
                             <td th:text='LCH'></td>                            
                             <td th:text='${trade.getSize()}'></td>
