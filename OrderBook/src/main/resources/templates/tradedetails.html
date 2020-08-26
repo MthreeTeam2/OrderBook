@@ -38,8 +38,8 @@
     </div>
     <br/>
     <div class="col text-center">
-        <a href="orderversionhistory1" class="btn btn-outline-primary btn-lg">View Buy Order</a>
-        <a href="orderversionhistory1" class="btn btn-outline-primary btn-lg">View Sell Order</a>
+        <a th:onclick="|window.location.href='/orderversionhistory?orderId=${trade.buyOrderVersion.order.id}'|" class="btn btn-outline-primary btn-lg">View Buy Order</a>
+        <a th:onclick="|window.location.href='/orderversionhistory?orderId=${trade.sellOrderVersion.order.id}'|" class="btn btn-outline-primary btn-lg">View Sell Order</a>
     </div>
 </div>
 
