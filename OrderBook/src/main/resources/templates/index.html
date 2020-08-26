@@ -39,7 +39,7 @@
                 <div th:each="stock:${stocks}">
                      <div class="col text-center m-3 border-dark" >
                          <a href="#" th:href="@{/orderbook(symb=${stock.symbol})}" class="btn btn-outline-primary btn-lg" th:utext="${stock.symbol} + '<br /> Latest Match: ' + ${stock.latestMatch} + '<br /> Orders Today: ' + ${stock.ordersToday}+
-                            + '<br /> Volume Today: ' + ${stock.volumeToday}"></a>
+                             '<br /> Volume Today: ' + ${stock.volumeToday}"></a>
                     </div>
                 </div>
             </div>

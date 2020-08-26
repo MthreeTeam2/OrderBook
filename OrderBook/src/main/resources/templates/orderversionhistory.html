@@ -30,7 +30,7 @@
         <div class="container">
             <div class=" col text-center m-3">
                 <div class="col text-center">
-                    <h2>Order {1} : {CP1} {BUY} {GOOG}</h2>
+                    <h2 th:utext="'Order ' + ${order.id} + ': '+${order.party.symbol} + ' ' + ${buySell} + ' '+${order.stock.symbol}"></h2>
                 </div>
 
                 <div class="col text-center">
@@ -50,32 +50,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>100</td>
-                                <td>200</td>
-                                <td>13/04/2020 13:25</td>
+                            <tr th:each="orderVersion : ${orderVersions}">
+                                <td th:text="${orderVersion.size}">100</td>
+                                <td th:text="${orderVersion.price}">200</td>
+                                <td th:text="${orderVersion.time}">13/04/2020 13:25</td>
                                 <td>Active</td>
                             </tr>
-                            <tr>
-                                <td>80</td>
-                                <td>200</td>
-                                <td>13/04/2020 13:20</td>
-                                <td>Amended</td>
-                            </tr>
-                            <tr>
-                                <td>100</td>
-                                <td>200</td>
-                                <td>13/04/2020 13:00</td>
-                                <td>Traded</td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                     <br />
-                    <div class="col text-center">
-                        <button class="btn btn-primary">Amend Order</button>
+                    
+                  <div class="col text-center">
+                        <button a href="#" th:href="@{/amendorder(id)}"class="btn btn-primary">Amend Order</button>
                         <button class="btn btn-primary">Cancel Order</button>
-                    </div>
+                    </div>  
                 </div>
+                
+                
             </div>
         </div>
 

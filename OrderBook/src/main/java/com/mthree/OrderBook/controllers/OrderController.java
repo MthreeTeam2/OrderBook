@@ -17,6 +17,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -108,6 +109,17 @@ public class OrderController {
         int id = Integer.parseInt(request.getParameter("id"));
         Optional<Order> order = service.getOrderById(id);
         System.out.println(order);
+        model.addAttribute("order",order.get());
+        Boolean isBuy = order.get().isIsBuy();
+        if (isBuy == true){
+            model.addAttribute("buySell","BUY");
+        }
+        else if (isBuy == false){
+            model.addAttribute("buySell","SELL");
+        }
+        
+        List<OrderVersion> ovList = service.getAllOrderVersionsForOrder(order.get());
+        model.addAttribute("orderVersions",ovList);
         return "orderversionhistory";
     }
     
