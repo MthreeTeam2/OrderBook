@@ -138,13 +138,10 @@ public class OrderController {
         Optional<Order> order = service.getOrderById(id);
         String symbol = request.getParameter("parties");
         Optional<Party> party = service.getPartyBySymbol(symbol);
-        Boolean isBuy = true;
+        
         OrderVersion ov = new OrderVersion();
-        String buySell = request.getParameter("isBuy");
-        if (buySell.equals("Sell")){
-            isBuy = false;
-        }
-        order.get().setIsBuy(isBuy);
+        
+        
         order.get().setParty(party.get());
         
         
