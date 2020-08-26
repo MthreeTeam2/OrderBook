@@ -141,6 +141,10 @@ public class OrderController {
         
         OrderVersion ov = new OrderVersion();
         
+        
+       
+        
+        
         try {
             int size = Integer.parseInt(request.getParameter("size"));
             BigDecimal price = new BigDecimal(request.getParameter("ticker")).setScale(2, RoundingMode.HALF_UP);
@@ -149,7 +153,7 @@ public class OrderController {
         } catch (NullPointerException nfe){
             
         }
-        
+        ov.setOrder(order.get());
         ov.setTime(LocalDateTime.now());
         ov.setIsActive(true);
         service.updateOrder(ov);
