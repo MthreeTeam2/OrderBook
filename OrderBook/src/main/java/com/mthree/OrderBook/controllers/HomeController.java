@@ -50,17 +50,9 @@ public class HomeController {
         model.addAttribute("stocks",stocks);
         
         List <Trade> trades = service.getTradesForDay(LocalDate.now().minusDays(1));
-        model.addAttribute("date",LocalDate.now().minusDays(1));
-        HashMap<Trade, String> tradeStockDataList = new HashMap<Trade,String>();
-        
-        
-        for (Trade trade : trades){
-            
-            String stockName = trade.getBuyOrderVersion().getOrder().getStock().getSymbol();
-            tradeStockDataList.put(trade, stockName);
-            
-        }
-        model.addAttribute("tradeStockDataList",tradeStockDataList.entrySet());
+        model.addAttribute("trades", trades);
+        model.addAttribute("date", LocalDate.now().minusDays(1));
+
        
         
         return "index";

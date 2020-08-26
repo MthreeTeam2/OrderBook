@@ -83,12 +83,12 @@
                     </thead>
                     <tbody>
 <!--                        th:onclick="|window.location.href='/editLocation?id=${location.LocationId}'|"-->
-                        <tr th:each='entry : ${tradeStockDataList}' th:onclick="|window.location.href='/tradedetails?id=${entry.key.id}'|">
-                            <td th:text='${entry.getValue()}'></td>
+                        <tr th:each='trade : ${trades}' th:onclick="|window.location.href='/tradedetails?id=${trade.id}'|">
+                            <td th:text='${trade.getBuyOrderVersion().getOrder().getStock().getSymbol()}'></td>
                             <td th:text='LCH'></td>                            
-                            <td th:text='${entry.key.size}'></td>
-                            <td th:text='${entry.key.price}'></td>
-                            <td th:text='${entry.key.time}'></td>
+                            <td th:text='${trade.getSize()}'></td>
+                            <td th:text='${trade.getPrice()}'></td>
+                            <td th:text='${trade.getTime()}'></td>
                         
                         </tr>
                         

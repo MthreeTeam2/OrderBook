@@ -46,7 +46,7 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
     @Query("SELECT t FROM trades t "
                + "JOIN orderversion ov on t.buyOrderVersion = ov.id "
                 + "JOIN orders o on ov.order = o.id "
-                + "JOIN  Stock s on o.stock = s.id "
+                + "JOIN  Stock s on o.stock = s.symbol "
                + "WHERE s = ?1 AND t.time > ?2 AND t.time < ?3 "
                 + "ORDER BY t.id DESC ")
     List<Trade> getTradesBetweenTimesForStock(Stock stock, LocalDateTime time, LocalDateTime time2);
@@ -54,7 +54,7 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
     @Query("SELECT t FROM trades t "
             + "JOIN orderversion ov on t.buyOrderVersion=ov.id "
             + "JOIN orders o on ov.order = o.id "
-            + "JOIN Stock s on o.stock = s.id "
+            + "JOIN Stock s on o.stock = s.symbol "
             + "WHERE s = ?1 "
             + "ORDER by t.id DESC")
     List<Trade> getTradesForStock(Stock stock);
