@@ -116,7 +116,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="trade : ${trades}">
+                        <tr th:each="trade : ${trades}" th:onclick="|window.location.href='/tradedetails?id=${trade.id}'|">
                             <td th:text="LCH">LCH</td>
                             <td th:text="${trade.size}">300</td>
                             <td th:text="${trade.price}">3234</td>

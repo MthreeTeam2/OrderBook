@@ -52,6 +52,7 @@ public class HomeController {
         List <Trade> trades = service.getTradesForDay(LocalDate.now().minusDays(1));
         model.addAttribute("trades", trades);
         model.addAttribute("date", LocalDate.now().minusDays(1));
+        
 
        
         
