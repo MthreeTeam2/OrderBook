@@ -108,7 +108,9 @@ public class OrderController {
         for(OrderVersion o : ovList ){
             o.setStatus(service.getStatusForOrderVersion(o));
         }
+        boolean active = ovList.get(0).isIsActive();
         
+        model.addAttribute("active", active);
         
         model.addAttribute("orderVersions",ovList);
         return "orderversionhistory";
