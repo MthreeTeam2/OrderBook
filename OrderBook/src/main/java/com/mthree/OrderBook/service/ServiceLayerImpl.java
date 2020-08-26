@@ -104,6 +104,9 @@ public class ServiceLayerImpl implements serviceLayer{
     @Transactional
     public void updateOrder(OrderVersion orderVersion){
         Order order = orderVersion.getOrder();
+        OrderVersion lastOne = orderVersionRepository.findByOrderOrderByIdDesc(orderVersion.getOrder()).get(0);
+        lastOne.setIsActive(false);
+        orderVersionRepository.save(lastOne);
         String buyString;
         if(order.isIsBuy()== true){
             buyString = " BUY ";
