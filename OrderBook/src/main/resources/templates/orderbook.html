@@ -56,7 +56,7 @@
                         <tbody>
                             <tr th:each="orders: ${buyOrders}">
                                 <td th:text="${orders.time}">25/12/2020 14:35</td>
-                                <td th:text="${orders.order.party.symbol}">LCH</td>
+                                <td>LCH</td>
                                 <td th:text="${orders.size}">300</td>
                                 <td th:text="${orders.price}">32.34</td>
                             </tr>
@@ -80,7 +80,7 @@
                                 <td th:text="${orders.price}">25/12/2020 14:35</td>
                                 
                                 <td th:text="${orders.size}">300</td>
-                                <td th:text="${orders.order.party.symbol}"></td>
+                                <td>LCH</td>
                                 <td th:text="${orders.time}">32.34</td>
                             </tr>
                         </tbody>

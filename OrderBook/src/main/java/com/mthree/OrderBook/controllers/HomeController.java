@@ -50,7 +50,7 @@ public class HomeController {
         
         
         for (Trade trade : trades){
-            HashMap<Trade, String> tradeStockData = new HashMap<>();
+            
             String stockName = trade.getBuyOrderVersion().getOrder().getStock().getSymbol();
             tradeStockDataList.put(trade, stockName);
             

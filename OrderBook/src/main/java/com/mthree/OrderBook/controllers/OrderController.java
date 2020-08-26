@@ -25,6 +25,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -56,6 +58,7 @@ public class OrderController {
         OrderVersion ov = new OrderVersion();
         Optional<Party> party = partyRep.findById(partySymbol);
         
+        
         Optional<Stock> stock = service.getStockBySymbol(stockSymbol);
         
         
@@ -78,7 +81,7 @@ public class OrderController {
         ov.setIsActive(true);
         ov.setTime(LocalDateTime.now());
         
-        orderRep.save(order);
+
         ov.setOrder(order);
         
         service.addOrder(ov);
@@ -88,5 +91,26 @@ public class OrderController {
         return "redirect:/orderbook?symb="+stockSymbol;
         
     }
+//    @GetMapping("sightingsDetails")
+//    public String sightingDetails(HttpServletRequest request, Model model){
+//        int id = Integer.parseInt(request.getParameter("id"));
+//        Sightings sighting = sightingDao.getSightingById(id);
+//        Location l = sighting.getLocation();
+//        SuperPerson sp = sighting.getSuperperson();
+//        model.addAttribute("location",l);
+//        model.addAttribute("super",sp);
+//        model.addAttribute("sighting",sighting);
+//        return "sightingsDetails";
+//    }
+    
+    @GetMapping("orderversionhistory")
+    public String orderversionDetails(HttpServletRequest request, Model model){
+        int id = Integer.parseInt(request.getParameter("id"));
+        Optional<Order> order = service.getOrderById(id);
+        System.out.println(order);
+        return "orderversionhistory";
+    }
+    
+    
     
 }
