@@ -55,21 +55,7 @@
                     </div>      
                 </div>
             </div>
-            <div class="row m-4">
-                <form class="form-inline" action="getTrades" method="POST" th:action='@{/getTrades}'>
-                    <div class="col text-center m-3">
-                        <input type="date" name="date"  id="date" class="form-control"/>
-                    </div>
-                    <div class="col text-center m-3">
-                        <select id="stock" name="stocks" class="form-control">
-                            <option>All</option>
-                            <option th:each='stock:${stocks}' th:text='${stock.symbol}' th:value='${stock.symbol}'> </option>
-                            
-                        </select>
-                    </div>
-                    <div class="col text-center m-3">
-                        <button type="button" class="btn btn-primary">Get Trades</button> </div>
-                </form>   </div>                
+                       
             <div class="form-group row table-wrapper-scroll-y my-custom-scrollbar ">
                 <table class="table table-bordered hoverTable">
                     <thead class="hoverHeader"  >
@@ -82,7 +68,7 @@
                         </tr>
                     </thead>
                     <tbody>
-<!--                        th:onclick="|window.location.href='/editLocation?id=${location.LocationId}'|"-->
+
                         <tr th:each='trade : ${trades}' th:onclick="|window.location.href='/tradedetails?id=${trade.id}'|">
                             <td th:text='${trade.getBuyOrderVersion().getOrder().getStock().getSymbol()}'></td>
                             <td th:text='LCH'></td>                            
