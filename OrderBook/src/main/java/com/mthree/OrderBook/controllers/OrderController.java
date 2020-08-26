@@ -137,7 +137,7 @@ public class OrderController {
         int id = Integer.parseInt(request.getParameter("orderid"));
         Optional<Order> order = service.getOrderById(id);
         String symbol = request.getParameter("parties");
-        
+       
         
         OrderVersion ov = new OrderVersion();
         
@@ -158,7 +158,7 @@ public class OrderController {
         ov.setIsActive(true);
         service.updateOrder(ov);
         String stockSymbol = order.get().getStock().getSymbol();
-        return "/orderbook?symb="+stockSymbol;
+        return "redirect:/orderbook?symb="+stockSymbol;
     }
     
     
