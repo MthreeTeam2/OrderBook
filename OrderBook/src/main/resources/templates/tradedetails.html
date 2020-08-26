@@ -14,31 +14,32 @@
 <div class="container">
     <div class="row m-4">
         <div class="col text-center">
-            <h1>Order Book</h1>
+            <h1><a href="/" class="text-dark">Order Book</a></h1>
         </div>
     </div>
 </div>
 <div class="container">
     <div class=" col text-center m-3">
         <div class="col text-center">
-            <h2>Trade {1} : {GOOG}</h2>
+            <h2 th:text="'Trade ' +${trade.id} +': ' + ${stock.symbol}"></h2>
         </div>
 <br/>
         <div class="col text-center">
-            <h3>Buy: {CP1}</h3>
-            <h3>Sell: {CP2}</h3>
-            <h3>Price: {10}</h3>
-            <h3>Size: {100}</h3>
+            <h3 th:text="'Buy : ' + ${buyOV.order.party.symbol}">Buy: {CP1}</h3>
+            <h3 th:text="'Sell : ' +${sellOV.order.party.symbol}">Sell: {CP2}</h3>
+            <h3 th:text="'Price : ' +${trade.price}">Price: {10}</h3>
+            <h3 th:text="'Size : ' +${trade.size}">Size: {100}</h3>
         </div>
         <br />
         <div class="col text-center">
-        <h4>13:45 23/07/2020</h4>
+            <h4 th:text="${date} +  ' - ' +${time}">13:45 23/07/2020</h4>
 
     </div>
     </div>
+    <br/>
     <div class="col text-center">
-        <button class="btn btn-primary">View Buy Order</button>
-        <button class="btn btn-primary">View Sell Order</button>
+        <a href="orderversionhistory1" class="btn btn-outline-primary btn-lg">View Buy Order</a>
+        <a href="orderversionhistory1" class="btn btn-outline-primary btn-lg">View Sell Order</a>
     </div>
 </div>
 

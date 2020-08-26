@@ -9,6 +9,7 @@ import com.mthree.OrderBook.entities.OrderVersion;
 import com.mthree.OrderBook.entities.Stock;
 import com.mthree.OrderBook.entities.Trade;
 import com.mthree.OrderBook.service.serviceLayer;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -34,17 +35,22 @@ public class TradeController {
     
     @GetMapping("tradedetails")
     public String orderBook(int id, Model model){
-//        String symbol = request.getParameter("symb");
-//        System.out.println("Symbol Order"+ symbol);
-//        Optional<Stock> stock = service.getStockBySymbol(symbol);
-//        List<OrderVersion> buyOrders = service.getActiveOrderVersionsForStock(stock.get(), true);
-//        List<OrderVersion> sellOrders = service.getActiveOrderVersionsForStock(stock.get(), false);
-//        List<Trade> trades = service.getTradesForStock(stock.get());
-//        model.addAttribute("stock",stock.get());
-//        model.addAttribute("buyOrders",buyOrders);
-//        model.addAttribute("sellOrders",sellOrders);
-//        model.addAttribute("trades",trades);
-//        
+        Optional<Trade> trade = service.getTradeById(id);
+        Stock stock = trade.get().getBuyOrderVersion().getOrder().getStock();
+        OrderVersion buyOV=trade.get().getBuyOrderVersion();
+        OrderVersion sellOV=trade.get().getSellOrderVersion();
+        System.out.println(trade.toString());
+        model.addAttribute("trade",trade.get());   
+        model.addAttribute("stock",stock);
+        model.addAttribute("buyOV",buyOV);
+        model.addAttribute("sellOV",sellOV);
+        model.addAttribute("date",trade.get().getTime().format(DateTimeFormatter.ISO_DATE));
+        model.addAttribute("time",trade.get().getTime().format(DateTimeFormatter.ISO_TIME));
         return "tradedetails";        
+    }
+    
+    @GetMapping("orderversionhistory1")
+    public String orderversionDetails(Model model){
+        return "orderversionhistory";
     }
 }
