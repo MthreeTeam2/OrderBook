@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import org.springframework.format.annotation.NumberFormat;
 
 /**
@@ -43,6 +44,18 @@ public class OrderVersion {
     
     @Column(nullable = false)//BigDecimal.scale(2, RoundingMode.HALFUP)
     private BigDecimal price;
+    
+    @Transient
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
 
     public int getId() {
         return id;

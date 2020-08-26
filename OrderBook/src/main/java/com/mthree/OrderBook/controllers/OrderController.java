@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -117,6 +118,12 @@ public class OrderController {
         }
         
         List<OrderVersion> ovList = service.getAllOrderVersionsForOrder(order.get());
+        
+        for(OrderVersion o : ovList ){
+            o.setStatus(service.getStatusForOrderVersion(o));
+        }
+        
+        
         model.addAttribute("orderVersions",ovList);
         return "orderversionhistory";
     }
