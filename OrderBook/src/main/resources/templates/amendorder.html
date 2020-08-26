@@ -20,7 +20,7 @@
 </div>
 <div class="container">
     <div class="col text-center">
-        <h2>Amend Order {1}: {CP1} {BUY} {GOOG}</h2>
+        <h2 th:utext="'Amend Order ' + ${order.id} + ': '+${order.party.symbol} + ' ' + ${buySell} + ' '+${order.stock.symbol}"></h2>
     </div>
     <div class="row m-4">
         <div class=" col m-6 ">

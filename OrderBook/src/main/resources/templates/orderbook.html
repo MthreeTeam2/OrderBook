@@ -66,7 +66,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="orders: ${buyOrders}" th:onclick="|window.location.href='/orderversionhistory?id=${orders.id}'|" class='data-href'>
+                            <tr th:each="orders: ${buyOrders}" th:onclick="|window.location.href='/orderversionhistory?orderId=${orders.order.id}'|" class='data-href'>
                                 <td th:text="${orders.time}">25/12/2020 14:35</td>
                                 <td>LCH</td>
                                 <td th:text="${orders.size}">300</td>
@@ -88,7 +88,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="orders: ${sellOrders}" th:onclick="|window.location.href='/orderversionhistory?id=${orders.id}'|" class='data-href'>
+                            <tr th:each="orders: ${sellOrders}" th:onclick="|window.location.href='/orderversionhistory?orderId=${orders.order.id}'|" class='data-href'>
                                 <td th:text="${orders.price}">25/12/2020 14:35</td>
                                 
                                 <td th:text="${orders.size}">300</td>
