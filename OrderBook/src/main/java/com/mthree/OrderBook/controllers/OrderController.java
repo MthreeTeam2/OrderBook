@@ -137,13 +137,9 @@ public class OrderController {
         int id = Integer.parseInt(request.getParameter("orderid"));
         Optional<Order> order = service.getOrderById(id);
         String symbol = request.getParameter("parties");
-        Optional<Party> party = service.getPartyBySymbol(symbol);
+        
         
         OrderVersion ov = new OrderVersion();
-        
-        
-        order.get().setParty(party.get());
-        
         
         try {
             int size = Integer.parseInt(request.getParameter("size"));
@@ -153,7 +149,7 @@ public class OrderController {
         } catch (NullPointerException nfe){
             
         }
-        ov.setOrder(order.get());
+        
         ov.setTime(LocalDateTime.now());
         ov.setIsActive(true);
         service.updateOrder(ov);
