@@ -300,13 +300,38 @@ public class ServiceLayerImpl implements serviceLayer{
         return orderVersionRepository.findByOrderOrderByIdDesc(order);
     }
     
-//    public String getStatusForOrderVersion(OrderVersion orderVersion){
-//        if(orderVersion.isIsActive()==true){
-//            return "Active";
-//        }else{
-//            if(tradeRepository.)
-//        }
-//    }
+    
+    @Override
+    public String getStatusForOrderVersion(OrderVersion orderVersion){
+        // If order version is active then status is active
+        if(orderVersion.isIsActive()==true){
+            return "Active";
+        }else{
+            // If  inactive and trades exist for orderversion then it has been traded
+            if(findTradesByOrderVersion(orderVersion).size()>0){
+                return "Traded";
+            }else{
+                // If inactive, no trades exist, and orderVersion is latest order version, then order was cancelled
+                if(orderVersionRepository.findByOrderOrderByIdDesc(orderVersion.getOrder()).get(0) == orderVersion ){
+                    return "Cancelled";
+                }else{
+                    // If inactive, no trades exist, and orderVersion is not latest order version, then order was ammended
+                    return "Amended";
+                }
+                    
+            }
+            
+        }
+    }
+    
+    private List<Trade> findTradesByOrderVersion(OrderVersion orderVersion){
+        if(orderVersion.getOrder().isIsBuy()==true){
+            return tradeRepository.findBybuyOrderVersion(orderVersion);
+        }else{
+            return tradeRepository.findBysellOrderVersion(orderVersion);
+        }
+        
+    }
     
     
     // TRADES

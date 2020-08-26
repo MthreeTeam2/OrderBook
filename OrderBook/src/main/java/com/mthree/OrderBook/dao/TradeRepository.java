@@ -35,6 +35,8 @@ public interface TradeRepository extends JpaRepository<Trade, Integer>{
      */
     List<Trade> findBybuyOrderVersion_Order(Order order);
     List<Trade> findBysellOrderVersion_Order(Order order);
+    List<Trade> findBybuyOrderVersion(OrderVersion orderVersion);
+    List<Trade> findBysellOrderVersion(OrderVersion orderVersion);
      
     @Query("SELECT t FROM trades t "
             + "WHERE t.time > ?1 AND time < ?2 "

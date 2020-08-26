@@ -29,6 +29,7 @@ public interface serviceLayer {
     // ORDER VERSIONS
     public List<OrderVersion> getActiveOrderVersionsForStock(Stock stock, boolean buy);
     public List<OrderVersion> getAllOrderVersionsForOrder(Order order);
+    public String getStatusForOrderVersion(OrderVersion orderVersion);
     public void updateOrder(OrderVersion orderVersion);
     
     
