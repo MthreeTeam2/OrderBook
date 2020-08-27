@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="row m-4 border ">
-                <div class=" col text-center m-3" th:text="'Orders Today: ' +${stock.ordersToday}">
+                <div class=" col text-center m-3" th:text="'Trades Today: ' +${stock.ordersToday}">
                     
                 </div>
                 <a href="#" th:href="@{/neworder(symb=${stock.symbol})}" type="submit" class="btn btn-primary">Add Order</a>
