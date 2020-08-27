@@ -1,0 +1,62 @@
+OrderBook Web App Implementation notes
+
+Prerequisites:
+1. A Java Runtime Environment (JRE) of at least version 11
+ 	> Check version of Java 
+		-- Launch command prompt or terminal
+		-- Type "java -version" and press enter
+	> If Java is not installed on your windows pc then please follow this guide - 	"https://java.tutorials24x7.com/blog/how-to-install-java-11-on-windows"
+	> If Java is not installed on your MacOS pc then please follow this guide - 	"https://docs.oracle.com/javase/10/install/installation-jdk-and-jre-macos.htm#JSJIG-GUID-E8A251B6-D9A9-4276-ABC8-CC0DAD62EA33"
+
+2. 7Zip installed to open package - Please use "https://www.newsgroupreviews.com/7-zip-installation.html" or any alternative google searches alongside "https://www.7-zip.org/download.html"
+
+3. Download and Install Apache Tomcat
+ 	> Download a binary distribution of Tomcat from: 
+		"http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.11/bin/
+http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.11/bin/
+	> Scroll to the bottom to find the apache-tomcat-8.5.11.zip folder and click to download
+	>  Once downloaded, move folder from downloads to documents folder.
+	> Unzip folder and open unzipped directory
+	> you should now see a list of folders, e.g. bin, con, lib and a few files e.g. LICENSE, RUNNING, RELEASE NOTES
+	> This is it correctly installed.
+
+IMPORTANT*IF USING WINDOWS*
+To run on Windows, Tomcat needs either the JAVA_HOME or JRE_HOME environmental variable set.
+
+-Open Windows Explorer.
+-Right click on This PC and select Properties.
+-Click Advanced system settings.
+-Click Environmental Variables.
+-Under User variables, click New.
+-Add the JRE_HOME variable. Its value is the path to the JRE base directory. It will be -something like: C:\Program Files\Java\jre1.8.0_131. It differs per install. Use Windows -Explorer to browse and find the actual JRE base directory on your machine.
+
+
+4. Install database server. Recommended server is Xampp.
+	> A link to install can be found here: https://www.apachefriends.org/index.html
+	> Click to download the version relevant to your operating system.
+	> Once installed, click to open/ install into applications folder if recommended.
+	> Follow the steps to setup xampp by click next on all pages.
+	> Open application
+		> Click start for Apache and MySQL
+		> click admin for MySQL and you should be redirected to a localhost:/phpmyadmin page
+		
+	
+	
+Implementation of program.
+1) Open the apache-tomcat folder from the directory you just stored it in.
+2) Open the webapps folder
+3) Open a new tab and open downloads to find the the Web Archive file (OrderBookWAR-0.0.1-SNAPSHOT.war)
+3) Take OrderBookWAR-0.0.1-SNAPSHOT.war copy it into the webapps folder from step 2.
+Open Xampp('localhost/phpmyadmin)/database server of choice, and copy and paste the sql script provided in the package into the program and click run/go/import.
+5) New database called orderbook should now be created. - Leave xampp active.
+6) Open command prompt (Windows) or Terminal (MacOs)
+7) You should start in the home directory.
+8) Type "cd Documents\apache-tomcat-8.5.11\bin\' to move to the correct directory.
+9) Ensure that you have completed step 3 of the prerequisites before attempting this step - Type 'startup.bat' to begin 
+the tomcat server. 
+10) Open Chrome or alternative
+11) Type 'localhost:8080/OrderBookWAR-0.0.1-SNAPSHOT\' into the search bar
+12) The application should open with the title 'Order Book'
+ 
+
+If there are errors with displaying the data from the database please contact Ben Stevenson (bww.stevenson@btinternet.com) and I will help to assist
